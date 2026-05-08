@@ -1,619 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalyst Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
-
-  html { font-size: 16px; }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: #F7F4F0;
-    color: #1A1714;
-    font-family: 'Lato', sans-serif;
-    min-height: 100vh;
-    padding: 2.25rem 1.75rem 3.5rem;
-    min-width: 1100px;
-  }
-
-  /* ── Header ── */
-  .header { margin-bottom: 2.25rem; }
-
-  .header-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px — minimum */
-    letter-spacing: 0.16em;
-    color: #9C8E84;
-    text-transform: uppercase;
-    margin-bottom: 0.625rem;
-  }
-
-  .header-title {
-    font-family: 'Lato', sans-serif;
-    font-size: 2rem;             /* 32px — H1 */
-    font-weight: 900;
-    color: #1A1714;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-  }
-
-  .header-title span { color: #E8873A; }
-
-  .header-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    color: #9C8E84;
-    margin-top: 0.625rem;
-    letter-spacing: 0.05em;
-  }
-
-  /* ── Layer rows ── */
-  .layer-row { display: flex; align-items: stretch; margin-bottom: 0.125rem; }
-
-  .layer-label {
-    width: 7.5rem;
-    min-width: 7.5rem;
-    padding: 0 1rem 0 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-right: 1px solid #E8E2DA;
-  }
-
-  .layer-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #9C8E84;
-    margin-bottom: 0.25rem;
-  }
-
-  .layer-name {
-    font-family: 'Lato', sans-serif;
-    font-size: 0.875rem;         /* 14px — secondary */
-    font-weight: 700;
-    color: #E8873A;
-    line-height: 1.2;
-  }
-
-  .phases-container, .signals-container {
-    flex: 1; display: flex; gap: 0.1875rem; padding-left: 1rem;
-  }
-
-  /* ── Phase cards (Layer 01) ── */
-  .phase-card {
-    flex: 1; background: #FFFFFF; border: 1px solid #E8E2DA;
-    border-top: 2px solid #E8873A; padding: 0.75rem 0.625rem;
-    cursor: pointer; transition: all 0.18s ease; min-height: 9rem;
-  }
-
-  .phase-card:hover {
-    border-top-color: #D4732A; background: #FDFAF7;
-    box-shadow: 0 2px 8px rgba(232,135,58,0.08);
-  }
-
-  .phase-card.active {
-    border-top-color: #D4732A; background: #FEF7F2;
-    box-shadow: 0 2px 12px rgba(232,135,58,0.12);
-  }
-
-  .phase-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    color: #C8B8AC;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.375rem;
-  }
-
-  .phase-name {
-    font-family: 'Lato', sans-serif;
-    font-size: 0.875rem;         /* 14px — secondary */
-    font-weight: 700;
-    color: #1A1714;
-    line-height: 1.3;
-    margin-bottom: 0.5rem;
-  }
-
-  .phase-desc {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px — minimum */
-    color: #9C8E84;
-    line-height: 1.55;
-  }
-
-  /* ── Arrow row ── */
-  .arrow-row { display: flex; align-items: center; margin-bottom: 0.125rem; height: 1.25rem; }
-
-  .arrow-spacer { width: 7.5rem; min-width: 7.5rem; border-right: 1px solid #E8E2DA; }
-
-  .arrow-track { flex: 1; padding-left: 1rem; display: flex; gap: 0.1875rem; align-items: center; }
-
-  .arrow-seg { flex: 1; height: 1px; background: #E8E2DA; position: relative; }
-
-  .arrow-seg::after {
-    content: '▶'; font-size: 0.375rem; color: #C8B8AC;
-    position: absolute; right: -0.25rem; top: 50%; transform: translateY(-50%);
-  }
-
-  .arrow-seg:last-child::after { display: none; }
-
-  /* ── Signal cards (Layer 02) ── */
-  .signal-card {
-    flex: 1; background: #FFFFFF; border: 1px solid #E8E2DA;
-    border-bottom: 2px solid #A8C0CC; padding: 0.625rem;
-    cursor: pointer; transition: all 0.18s ease; min-height: 13rem;
-  }
-
-  .signal-card:hover {
-    background: #FDFAF7;
-    box-shadow: 0 2px 8px rgba(232,135,58,0.06);
-  }
-
-  .signal-card.active {
-    background: #FEF7F2; border-color: #E8D8C8;
-    border-bottom-color: #E8873A;
-    box-shadow: 0 2px 12px rgba(232,135,58,0.10);
-  }
-
-  .sig-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    padding: 0.125rem 0.375rem;
-    display: inline-block;
-    border-radius: 2px;
-    font-weight: 500;
-  }
-
-  .t-policy  { background:#EEF4EB; color:#6A8C5A; }
-  .t-plan    { background:#EBF4F2; color:#4A8478; }
-  .t-prep    { background:#EBF0F8; color:#4A6A9C; }
-  .t-study   { background:#F2EBF8; color:#7A5A9C; }
-  .t-proc    { background:#FEF0E6; color:#C47030; }
-  .t-fin     { background:#FCEAE8; color:#B85040; }
-  .t-ops     { background:#F4F2E8; color:#7A7848; }
-
-  .sig-list { list-style: none; }
-
-  .sig-list li {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px — minimum */
-    color: #7A6E68;
-    padding: 0.1875rem 0;
-    border-bottom: 1px solid #F0EBE6;
-    line-height: 1.4;
-    display: flex; gap: 0.3125rem; align-items: flex-start;
-  }
-
-  .sig-list li:last-child { border-bottom: none; }
-
-  .sig-list li::before { content: '—'; color: #C8B8AC; flex-shrink: 0; font-size: 0.75rem; }
-
-  .src { color: #E8873A; font-weight: 500; }
-
-  /* ── Detail panel ── */
-  .detail-panel {
-    margin-top: 1rem; background: #FFFFFF; border: 1px solid #E8E2DA;
-    border-left: 3px solid #E8873A; padding: 1.25rem 1.5rem;
-    display: none; animation: fadeIn 0.18s ease;
-  }
-
-  .detail-panel.visible { display: block; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(3px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .detail-phase {
-    font-family: 'Lato', sans-serif;
-    font-size: 1.125rem;         /* 18px — body upper end */
-    font-weight: 900;
-    color: #E8873A;
-    margin-bottom: 0.375rem;
-    letter-spacing: -0.01em;
-  }
-
-  .detail-desc {
-    font-family: 'Lato', sans-serif;
-    font-size: 1rem;             /* 16px — body text */
-    color: #5C5248;
-    margin-bottom: 1.25rem;
-    line-height: 1.65;
-    max-width: 80%;
-  }
-
-  .detail-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
-
-  .detail-col-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #9C8E84;
-    margin-bottom: 0.625rem;
-  }
-
-  .detail-list { list-style: none; }
-
-  .detail-list li {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.875rem;         /* 14px — secondary */
-    color: #5C5248;
-    padding: 0.375rem 0;
-    border-bottom: 1px solid #F0EBE6;
-    line-height: 1.5;
-  }
-
-  .detail-list li:last-child { border-bottom: none; }
-  .detail-list .s { color: #E8873A; font-weight: 500; }
-  .detail-list .n { color: #9C8E84; font-style: italic; }
-
-  /* ── Footer ── */
-  .footer {
-    margin-top: 1.5rem; display: flex; gap: 1.25rem; flex-wrap: wrap;
-    padding-top: 1rem; border-top: 1px solid #E8E2DA; align-items: center;
-  }
-
-  .leg {
-    display: flex; align-items: center; gap: 0.4375rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    color: #9C8E84;
-  }
-
-  .leg-dot { width: 0.5rem; height: 0.5rem; border-radius: 1px; flex-shrink: 0; }
-
-  .version {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;          /* 12px */
-    color: #C8B8AC;
-    margin-top: 0.5rem;
-    letter-spacing: 0.08em;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c-bg: #F7F4F0; --c-surface: #FFFFFF; --c-surface-hover: #FDFAF7;
+  --c-border: #E8E2DA; --c-border-active: #E8D8C8;
+  --c-text-primary: #1A1714; --c-text-body: #5C5248;
+  --c-text-muted: #9C8E84; --c-text-faint: #C8B8AC;
+  --c-accent: #E8873A; --c-accent-dark: #D4732A;
+  --f-body: 'Lato', sans-serif; --f-mono: 'JetBrains Mono', monospace;
+}
+html { font-size: 16px; }
+body { background: var(--c-bg); color: var(--c-text-primary); font-family: var(--f-body); min-height: 100vh; padding: 2.25rem 1.75rem 3.5rem; }
+header { border-top: 3px solid var(--c-accent); padding-top: 1.75rem; margin-bottom: 2.5rem; }
+.header-label { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-text-muted); margin-bottom: 0.625rem; }
+.header-title { font-size: 2rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; color: var(--c-text-primary); }
+.header-title span { color: var(--c-accent); }
+.header-sub { font-family: var(--f-mono); font-size: 0.75rem; color: var(--c-text-muted); margin-top: 0.625rem; letter-spacing: 0.05em; }
+.section-label { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-text-muted); margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--c-border); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin-top: 2rem; }
+a.artifact-card { display: block; text-decoration: none; background: var(--c-surface); border: 1px solid var(--c-border); border-top: 2px solid var(--c-accent); padding: 1.25rem 1.25rem 1rem; transition: all 0.18s ease; }
+a.artifact-card:hover { background: var(--c-surface-hover); border-color: var(--c-border-active); border-top-color: var(--c-accent-dark); box-shadow: 0 2px 8px rgba(232,135,58,0.08); }
+.card-version { font-family: var(--f-mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-text-faint); margin-bottom: 0.5rem; }
+.card-title { font-size: 1rem; font-weight: 900; letter-spacing: -0.01em; color: var(--c-text-primary); margin-bottom: 0.375rem; line-height: 1.25; }
+.card-desc { font-size: 0.8125rem; color: var(--c-text-body); line-height: 1.55; margin-bottom: 1rem; }
+.card-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-family: var(--f-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; padding: 2px 7px; border-radius: 2px; }
+.t-strategy { background: #EBF0F8; color: #4A6A9C; }
+.t-ops      { background: #FEF0E6; color: #C47030; }
+.t-research { background: #EEF4EB; color: #6A8C5A; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--c-border); font-family: var(--f-mono); font-size: 0.7rem; color: var(--c-text-faint); letter-spacing: 0.06em; }
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-label">Catalyst Energy Africa · Internal Strategy Artifact · v0.1</div>
-  <div class="header-title">Infrastructure Project Lifecycle<br><span>Signal Intelligence Map</span></div>
-  <div class="header-sub">Layer 01: Canonical Phases &nbsp;·&nbsp; Layer 02: Early Signal Sources &nbsp;·&nbsp; Click any phase to expand detail</div>
+<header>
+  <div class="header-label">Catalyst Energy Africa · Internal Intelligence Hub</div>
+  <div class="header-title">Catalyst <span>Intelligence</span></div>
+  <div class="header-sub">Strategy artifacts · Market intelligence · Live dashboards</div>
+</header>
+<div class="section-label">Artifacts</div>
+<div class="grid">
+  <a class="artifact-card" href="lifecycle-signal-map.html">
+    <div class="card-version">v0.1</div>
+    <div class="card-title">Infrastructure Project Lifecycle — Signal Map</div>
+    <div class="card-desc">7-phase project lifecycle with signal sources mapped to each stage. Identifies optimal entry points and early detection channels for SSA advisory mandates.</div>
+    <div class="card-meta">
+      <span class="tag t-strategy">Strategy</span>
+      <span class="tag t-research">Signal Intelligence</span>
+    </div>
+  </a>
+  <a class="artifact-card" href="opportunity-scanner.html">
+    <div class="card-version">v0.1</div>
+    <div class="card-title">Opportunity Scanner — Source Registry</div>
+    <div class="card-desc">Live registry of 26 automated sources, 17 pipeline candidates, and keyword taxonomy powering the SSA advisory mandate scanner. Covers procurement portals, DFI feeds, and market signal sources.</div>
+    <div class="card-meta">
+      <span class="tag t-ops">Operations</span>
+      <span class="tag t-research">Procurement Intelligence</span>
+    </div>
+  </a>
 </div>
-
-<div class="layer-row">
-  <div class="layer-label">
-    <div class="layer-tag">Layer 01</div>
-    <div class="layer-name">Project Lifecycle</div>
-  </div>
-  <div class="phases-container">
-    <div class="phase-card" data-p="0" onclick="sel(0)">
-      <div class="phase-num">01 ·</div>
-      <div class="phase-name">Policy &amp; Sector Reform</div>
-      <div class="phase-desc">Govt commits to sector direction. IPP frameworks, utility restructuring. No projects yet — pipeline being created.</div>
-    </div>
-    <div class="phase-card" data-p="1" onclick="sel(1)">
-      <div class="phase-num">02 ·</div>
-      <div class="phase-name">National Planning &amp; Programme Design</div>
-      <div class="phase-desc">IRPs, electrification masterplans, WASH investment plans. Projects conceptualised and budgeted.</div>
-    </div>
-    <div class="phase-card" data-p="2" onclick="sel(2)">
-      <div class="phase-num">03 ·</div>
-      <div class="phase-name">Project Identification &amp; Prefeasibility</div>
-      <div class="phase-desc">Specific project scoped. Feasibility TORs drafted. DFI prep grants appear. 12–24 month lead on RFP.</div>
-    </div>
-    <div class="phase-card" data-p="3" onclick="sel(3)">
-      <div class="phase-num">04 ·</div>
-      <div class="phase-name">Feasibility &amp; Structuring</div>
-      <div class="phase-desc">Detailed studies, technology selection, financing structure. ESMP baselines. Long phase — many consultants.</div>
-    </div>
-    <div class="phase-card" data-p="4" onclick="sel(4)">
-      <div class="phase-num">05 ·</div>
-      <div class="phase-name">Transaction &amp; Procurement</div>
-      <div class="phase-desc">RFP issued. Bids prepared. Preferred bidder selected. Most visible phase. Most crowded.</div>
-    </div>
-    <div class="phase-card" data-p="5" onclick="sel(5)">
-      <div class="phase-num">06 ·</div>
-      <div class="phase-name">Financial Close &amp; Construction</div>
-      <div class="phase-desc">Debt and equity assembled. EPC contracted. Limited advisory entry unless lender's/owner's engineer.</div>
-    </div>
-    <div class="phase-card" data-p="6" onclick="sel(6)">
-      <div class="phase-num">07 ·</div>
-      <div class="phase-name">Operations &amp; Asset Management</div>
-      <div class="phase-desc">Tariff reviews, benchmarking, refinancing, expansion planning. Underserved entry point.</div>
-    </div>
-  </div>
-</div>
-
-<div class="arrow-row">
-  <div class="arrow-spacer"></div>
-  <div class="arrow-track">
-    <div class="arrow-seg"></div><div class="arrow-seg"></div><div class="arrow-seg"></div>
-    <div class="arrow-seg"></div><div class="arrow-seg"></div><div class="arrow-seg"></div>
-    <div class="arrow-seg"></div>
-  </div>
-</div>
-
-<div class="layer-row">
-  <div class="layer-label">
-    <div class="layer-tag">Layer 02</div>
-    <div class="layer-name">Signal Sources</div>
-  </div>
-  <div class="signals-container">
-    <div class="signal-card" data-p="0" onclick="sel(0)">
-      <span class="sig-tag t-policy">Policy</span>
-      <ul class="sig-list">
-        <li><span><span class="src">IMF</span> Article IV consultations</span></li>
-        <li><span><span class="src">World Bank</span> sector diagnostics &amp; CASs</span></li>
-        <li><span><span class="src">AfDB</span> country strategy papers</span></li>
-        <li><span><span class="src">USAID / FCDO</span> sector assessments</span></li>
-        <li><span>National budget speeches</span></li>
-        <li><span>Regulatory gazette notices</span></li>
-        <li><span>Govt × bilateral MOU announcements</span></li>
-      </ul>
-    </div>
-    <div class="signal-card" data-p="1" onclick="sel(1)">
-      <span class="sig-tag t-plan">Planning</span>
-      <ul class="sig-list">
-        <li><span>National development plans (NDPs)</span></li>
-        <li><span><span class="src">MCC</span> compacts &amp; threshold programs</span></li>
-        <li><span><span class="src">IRENA</span> country roadmaps</span></li>
-        <li><span><span class="src">IEA</span> Africa energy outlook</span></li>
-        <li><span><span class="src">World Bank ESMAP</span> country notes</span></li>
-        <li><span><span class="src">SADC / ECOWAS / EAPP</span> regional plans</span></li>
-        <li><span>Utility masterplans (where published)</span></li>
-      </ul>
-    </div>
-    <div class="signal-card" data-p="2" onclick="sel(2)">
-      <span class="sig-tag t-prep">Prep Grant</span>
-      <ul class="sig-list">
-        <li><span><span class="src">World Bank / IFC</span> project pipeline DB</span></li>
-        <li><span><span class="src">AfDB</span> project pipeline portal</span></li>
-        <li><span><span class="src">PIDG</span> pipeline tracker</span></li>
-        <li><span><span class="src">Climatescope</span> project tracker</span></li>
-        <li><span><span class="src">NEPAD-IPPF</span> prep facility awards</span></li>
-        <li><span><span class="src">EU-AFIF / GET FiT</span> grant notices</span></li>
-        <li><span>DFI portals — consultant TORs</span></li>
-      </ul>
-    </div>
-    <div class="signal-card" data-p="3" onclick="sel(3)">
-      <span class="sig-tag t-study">Study</span>
-      <ul class="sig-list">
-        <li><span>ESMP / ESIA scoping notices</span></li>
-        <li><span><span class="src">World Bank</span> PIDs</span></li>
-        <li><span><span class="src">AfDB</span> project appraisal summaries</span></li>
-        <li><span>Country env. authority filings</span></li>
-        <li><span>Country procurement journals</span></li>
-        <li><span>DFI mandated lender announcements</span></li>
-      </ul>
-    </div>
-    <div class="signal-card" data-p="4" onclick="sel(4)">
-      <span class="sig-tag t-proc">Procurement</span>
-      <ul class="sig-list">
-        <li><span>PPEA / national procurement portals</span></li>
-        <li><span><span class="src">UNDB / dgMarket</span></span></li>
-        <li><span>IPP office tender bulletins</span></li>
-        <li><span>Country procurement gazettes</span></li>
-        <li><span><span class="src">GPA / WTO</span> notice database</span></li>
-        <li><span>Trade press — preferred bidder</span></li>
-      </ul>
-    </div>
-    <div class="signal-card" data-p="5" onclick="sel(5)">
-      <span class="sig-tag t-fin">Finance</span>
-      <ul class="sig-list">
-        <li><span>DFI board approval notices</span></li>
-        <li><span>Financial close press releases</span></li>
-        <li><span>EPC contract award notices</span></li>
-        <li><span><span class="src">IJGlobal / PFI</span> tombstones</span></li>
-        <li><span>Arranger announcements</span></li>
-      </ul>
-    </div>
-    <div class="signal-card" data-p="6" onclick="sel(6)">
-      <span class="sig-tag t-ops">Operations</span>
-      <ul class="sig-list">
-        <li><span><span class="src">ZERA / NERSA / EWRC / ERA</span> tariff filings</span></li>
-        <li><span>Utility annual reports &amp; audits</span></li>
-        <li><span>Regulator benchmarking reports</span></li>
-        <li><span>Refinancing tombstones</span></li>
-        <li><span>Expansion / capex disclosures</span></li>
-        <li><span>Govt PPP unit periodic reviews</span></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="detail-panel" id="dp">
-  <div class="detail-phase" id="dp-name"></div>
-  <div class="detail-desc" id="dp-desc"></div>
-  <div class="detail-cols">
-    <div>
-      <div class="detail-col-label">Signal Sources — Named</div>
-      <ul class="detail-list" id="dp-src"></ul>
-    </div>
-    <div>
-      <div class="detail-col-label">Intelligence Notes</div>
-      <ul class="detail-list" id="dp-notes"></ul>
-    </div>
-  </div>
-</div>
-
-<div class="footer">
-  <div class="leg"><div class="leg-dot" style="background:#E8873A"></div>Layer 01 — Lifecycle Phase</div>
-  <div class="leg"><div class="leg-dot" style="background:#7A9AAA"></div>Layer 02 — Signal Source</div>
-  <div class="leg">· Click any card to expand · Phase-ambiguity flagged in notes</div>
-</div>
-<div class="version">v0.1 · Catalyst Energy Africa · Entry point layer (L03) pending audit</div>
-
-<script>
-const D = [
-  {
-    name:"01 — Policy & Sector Reform",
-    desc:"Government commits to sector direction — IPP framework enacted, utility restructuring mandated, tariff reform initiated. No discrete projects yet, but the pipeline is being created. Earliest detectable signal horizon. Phase duration: 1–5+ years.",
-    src:[
-      {s:"IMF",d:"Article IV consultation reports — flag sector reform conditionality language"},
-      {s:"World Bank",d:"Sector diagnostics, Country Assistance Strategies (CASs)"},
-      {s:"AfDB",d:"Country Strategy Papers (CSPs) — 5-year lending focus areas by sector"},
-      {s:"USAID / FCDO",d:"Sector assessments and Power Africa / energy access program documents"},
-      {s:"National govts",d:"Budget speeches, gazette notices, ministry press releases"},
-      {s:"Bilateral MOUs",d:"Govt × development partner MOUs — imply downstream capital expenditure"},
-      {s:"Regulatory bodies",d:"ZERA, NERSA, EWRC, ERA — policy consultation and gazette notices"},
-    ],
-    notes:[
-      {n:"Key indicator: sector regulator created or empowered — precedes pipeline by 2–4 years."},
-      {n:"MOU between govt and bilateral often precedes a prep grant by 12–18 months."},
-      {n:"Phase ambiguity: LOW. Reform signals are rarely mistaken for later phases."},
-      {n:"Signals are highly diffuse — require interpretation, not just monitoring."},
-      {n:"Wiki tag: POLICY | REFORM | [COUNTRY] | [SECTOR]"},
-    ]
-  },
-  {
-    name:"02 — National Planning & Programme Design",
-    desc:"Projects conceptualised and budgeted at programme level. Integrated Resource Plans, WASH masterplans, rural electrification rollouts. The specific project doesn't exist yet but the envelope it will sit in is being defined here.",
-    src:[
-      {s:"National Dev Plans",d:"NDPs and Vision documents — capital budget line appearances are high-value signals"},
-      {s:"MCC",d:"Compact and threshold program documents — infrastructure-heavy by design"},
-      {s:"IRENA",d:"Country renewable energy roadmaps — technology and capacity targets by year"},
-      {s:"IEA",d:"Africa Energy Outlook — country-level investment gap analysis"},
-      {s:"World Bank ESMAP",d:"Energy sector management assistance programme — scoping notes and gap analysis"},
-      {s:"SADC / ECOWAS / EAPP",d:"Regional power pool masterplans and interconnection studies"},
-      {s:"Utilities",d:"Published masterplans — ZESCO, TANESCO, KPLC, ESKOM distribution plans"},
-    ],
-    notes:[
-      {n:"Capital budget line appearances = highest-value early signal at this phase."},
-      {n:"Regional pool plans often precede national project identification by 3–5 years."},
-      {n:"Watch for: 'feasibility study to be commissioned' language in NDPs and IRPs."},
-      {n:"Phase ambiguity: MEDIUM. Planning docs overlap with phase 03 signals."},
-      {n:"Wiki tag: PLANNING | PROGRAMME | [COUNTRY] | [SECTOR] | [TECHNOLOGY]"},
-    ]
-  },
-  {
-    name:"03 — Project Identification & Prefeasibility",
-    desc:"A specific project is scoped. Feasibility TORs are drafted. DFI preparation grants appear. This is the 12–24 month lead-time window before RFP — the highest-value detection point for early-mover advantage in deal origination.",
-    src:[
-      {s:"World Bank / IFC",d:"Project pipeline database — projects at concept and preparation stages"},
-      {s:"AfDB",d:"Project pipeline portal — discrete project entries at early preparation"},
-      {s:"PIDG",d:"InfraCo Africa, EAIF, GuarantCo pipeline disclosures — preparation grants"},
-      {s:"Climatescope / BNEF",d:"Emerging market project tracker — early-stage project filings"},
-      {s:"NEPAD-IPPF",d:"Infrastructure Preparation Facility award notices — grant = project is real"},
-      {s:"EU-AFIF / GET FiT",d:"Grant award announcements for project preparation studies"},
-      {s:"DFI procurement portals",d:"Consultant TOR postings — prefeasibility and feasibility study mandates"},
-    ],
-    notes:[
-      {n:"HIGHEST LEVERAGE PHASE for early detection and relationship building."},
-      {n:"Consultant TOR postings precede PID publication by 3–9 months — watch these."},
-      {n:"Prep grant award = project is real. Treat as confirmed pipeline entry."},
-      {n:"Phase ambiguity: HIGH. Many signals straddle phases 03 and 04."},
-      {n:"Wiki tag: IDENTIFICATION | PREFEAS | [DFI] | [COUNTRY] | [PROJECT NAME]"},
-    ]
-  },
-  {
-    name:"04 — Feasibility & Structuring",
-    desc:"Detailed technical, financial, and environmental studies underway. Technology selection, financing structure design, ESMP baseline work. Typically 18–36 months. Multiple consultants active simultaneously — competitive but not yet crowded.",
-    src:[
-      {s:"ESIA / ESMP notices",d:"Environmental scoping and impact assessment public notices — country env. authorities"},
-      {s:"World Bank PIDs",d:"Project Information Documents — published at appraisal stage"},
-      {s:"AfDB appraisals",d:"Project appraisal report summaries — public environmental and social disclosures"},
-      {s:"Country env. authorities",d:"NEMA (Kenya/Uganda), EPA (Ghana), DEA (SA) — environmental review filings"},
-      {s:"DFI lender lists",d:"Mandated lead arranger announcements signal financing structure agreed"},
-      {s:"Country procurement journals",d:"Consultant firm shortlist and award notices"},
-    ],
-    notes:[
-      {n:"ESMP scoping notice is often the first public signal a specific project exists."},
-      {n:"PIDs are published after appraisal — signal arrives late in this phase."},
-      {n:"MLA announcements signal financing structure has been agreed — late phase 04."},
-      {n:"Phase ambiguity: MEDIUM-HIGH. Overlaps with signals from phases 03 and 05."},
-      {n:"Wiki tag: FEASIBILITY | STRUCTURING | [PROJECT] | [DFI] | [COUNTRY]"},
-    ]
-  },
-  {
-    name:"05 — Transaction & Procurement",
-    desc:"RFP issued. Bids prepared and submitted. Preferred bidder selected. Most visible phase — and most crowded. Signal detection here provides no early-mover advantage. Useful only for competitive intelligence and peer tracking.",
-    src:[
-      {s:"PPEA / PPA",d:"National procurement authority portals — country by country, varies significantly"},
-      {s:"UNDB / dgMarket",d:"UN Development Business and DG Market — DFI-funded contract notices"},
-      {s:"IPP office bulletins",d:"REIPPP (SA), ZIERA (Zimbabwe), GET FiT (Uganda), SREP country programs"},
-      {s:"Procurement gazettes",d:"Country government gazettes — formal tender notices, often delayed publication"},
-      {s:"GPA / WTO",d:"Government Procurement Agreement notice database"},
-      {s:"Trade press",d:"ESI Africa, Devex, Infrastructure Journal — preferred bidder announcements"},
-    ],
-    notes:[
-      {n:"Signals here = crowded market. No competitive advantage from detection alone."},
-      {n:"Value: competitive intelligence, peer firm tracking, market sizing."},
-      {n:"IPP office bulletins most reliable for renewable energy tenders."},
-      {n:"Phase ambiguity: LOW. Procurement signals are phase-definitive."},
-      {n:"Wiki tag: PROCUREMENT | TENDER | [PROJECT] | [COUNTRY] | [STATUS]"},
-    ]
-  },
-  {
-    name:"06 — Financial Close & Construction",
-    desc:"Debt and equity assembled. EPC contracted and mobilised. Limited advisory entry at this stage unless positioned as lender's engineer or owner's engineer from the feasibility phase. BD value of signals is minimal.",
-    src:[
-      {s:"DFI board notices",d:"Board approval and signing notices — AfDB, IFC, DEG, Proparco, FMO, OPIC/DFC"},
-      {s:"Sponsor press releases",d:"Financial close announcements — often first public signal of close"},
-      {s:"EPC award notices",d:"Procurement portals and contractor press releases — EPC contract award"},
-      {s:"IJGlobal / PFI",d:"Infrastructure Journal and Project Finance International — deal tombstones"},
-      {s:"Arranger announcements",d:"Standard Bank, RMB, ABSA, DBSA, NedBank — tombstone releases"},
-    ],
-    notes:[
-      {n:"Signals here are post-decision. BD entry value is minimal."},
-      {n:"Use for: pipeline intelligence, competitor mapping, market benchmarking."},
-      {n:"IJGlobal tombstone database most comprehensive for SSA infrastructure deals."},
-      {n:"Phase ambiguity: LOW. Close signals are phase-definitive."},
-      {n:"Wiki tag: FINANCIAL CLOSE | CONSTRUCTION | [PROJECT] | [SPONSORS] | [COUNTRY]"},
-    ]
-  },
-  {
-    name:"07 — Operations & Asset Management",
-    desc:"Project operational. Tariff reviews, performance benchmarking, refinancing events, expansion capex planning. Underserved entry point in the Sub-Saharan African market — most advisory peers ignore this phase entirely.",
-    src:[
-      {s:"ZERA / NERSA / EWRC",d:"Zimbabwe, South Africa, Eswatini regulators — tariff review filings and determinations"},
-      {s:"ERA / PURC / ERC",d:"Uganda, Ghana, Kenya regulatory review notices and annual performance reports"},
-      {s:"Utility annual reports",d:"ZESCO, TANESCO, KPLC, ESKOM — capex plans and expansion programmes"},
-      {s:"National audit reports",d:"Where published — flag performance deterioration and asset distress signals"},
-      {s:"Refinancing tombstones",d:"IJGlobal, PFI — refinancing and reset events open sponsor relationship door"},
-      {s:"Govt PPP unit reviews",d:"Periodic PPP performance reviews — flag renegotiation risk and contract resets"},
-    ],
-    notes:[
-      {n:"Underserved phase — low competition from peer advisory firms."},
-      {n:"Tariff review filings = asset is operational and exposed to regulatory risk."},
-      {n:"Expansion capex appearing in utility reports = new project in early formation."},
-      {n:"Refinancing events open relationship door with existing project sponsors."},
-      {n:"Wiki tag: OPERATIONS | ASSET MGMT | [PROJECT] | [OPERATOR] | [COUNTRY]"},
-    ]
-  }
-];
-
-let active = null;
-
-function sel(i) {
-  if (active === i) {
-    active = null;
-    document.querySelectorAll('[data-p]').forEach(c => c.classList.remove('active'));
-    document.getElementById('dp').classList.remove('visible');
-    return;
-  }
-  active = i;
-  document.querySelectorAll('[data-p]').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll(`[data-p="${i}"]`).forEach(c => c.classList.add('active'));
-
-  const d = D[i];
-  document.getElementById('dp-name').textContent = d.name;
-  document.getElementById('dp-desc').textContent = d.desc;
-  document.getElementById('dp-src').innerHTML = d.src.map(x =>
-    `<li><span class="s">${x.s}</span> — <span class="n">${x.d}</span></li>`).join('');
-  document.getElementById('dp-notes').innerHTML = d.notes.map(x =>
-    `<li><span class="n">${x.n}</span></li>`).join('');
-
-  const panel = document.getElementById('dp');
-  panel.classList.add('visible');
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-</script>
+<footer>Catalyst Energy Africa · Internal use only · catalystenergy.com</footer>
 </body>
 </html>
