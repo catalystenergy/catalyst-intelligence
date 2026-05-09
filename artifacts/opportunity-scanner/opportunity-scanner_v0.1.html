@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opportunity Scanner — Catalyst Energy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c-bg:            #F7F4F0;
+  --c-surface:       #FFFFFF;
+  --c-surface-hover: #FDFAF7;
+  --c-surface-active:#FEF7F2;
+  --c-border:        #E8E2DA;
+  --c-border-active: #E8D8C8;
+  --c-border-soft:   #F0EBE6;
+  --c-text-primary:  #1A1714;
+  --c-text-body:     #5C5248;
+  --c-text-secondary:#7A6E68;
+  --c-text-muted:    #9C8E84;
+  --c-text-faint:    #C8B8AC;
+  --c-accent:        #E8873A;
+  --c-accent-dark:   #D4732A;
+  --c-signal:        #A8C0CC;
+  --c-tag-policy-bg: #EEF4EB; --c-tag-policy-fg: #6A8C5A;
+  --c-tag-plan-bg:   #EBF4F2; --c-tag-plan-fg:   #4A8478;
+  --c-tag-prep-bg:   #EBF0F8; --c-tag-prep-fg:   #4A6A9C;
+  --c-tag-study-bg:  #F2EBF8; --c-tag-study-fg:  #7A5A9C;
+  --c-tag-proc-bg:   #FEF0E6; --c-tag-proc-fg:   #C47030;
+  --c-tag-fin-bg:    #FCEAE8; --c-tag-fin-fg:    #B85040;
+  --c-tag-ops-bg:    #F4F2E8; --c-tag-ops-fg:    #7A7848;
+  --f-body: 'Lato', sans-serif;
+  --f-mono: 'JetBrains Mono', monospace;
+  --radius-tag: 2px;
+}
+html { font-size: 16px; }
+body { background: var(--c-bg); color: var(--c-text-primary); font-family: var(--f-body); min-height: 100vh; }
+
+/* ── HEADER ── */
+header {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  border-top: 3px solid var(--c-accent);
+  padding: 14px 24px;
+  display: flex; align-items: center; gap: 14px;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo {
+  width: 36px; height: 36px;
+  border: 2px solid var(--c-accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-body); font-weight: 900; font-size: 11px;
+  color: var(--c-accent); letter-spacing: 0.05em; flex-shrink: 0;
+}
+.header-title h1 { font-family: var(--f-body); font-size: 15px; font-weight: 900; letter-spacing: -0.01em; color: var(--c-text-primary); }
+.header-title p  { font-family: var(--f-mono); font-size: 11px; color: var(--c-text-muted); margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+.header-right { margin-left: auto; text-align: right; }
+.ver-badge { font-family: var(--f-mono); font-size: 10px; background: var(--c-bg); border: 1px solid var(--c-border); padding: 3px 8px; color: var(--c-text-muted); letter-spacing: 0.06em; }
+.ver-date  { font-family: var(--f-mono); font-size: 10px; color: var(--c-text-faint); margin-top: 3px; letter-spacing: 0.04em; }
+
+/* ── STATS BAR ── */
+.stats-bar { display: flex; border-bottom: 1px solid var(--c-border); gap: 1px; background: var(--c-border); }
+.stat-item { flex: 1; background: var(--c-bg); padding: 12px 20px; display: flex; align-items: center; gap: 12px; }
+.stat-dot  { width: 6px; height: 6px; flex-shrink: 0; }
+.stat-num  { font-family: var(--f-body); font-size: 22px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.stat-label{ font-family: var(--f-mono); font-size: 10px; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 3px; }
+
+/* ── MAIN TABS ── */
+.main-nav { display: flex; background: var(--c-surface); border-bottom: 1px solid var(--c-border); padding: 0 24px; gap: 0; }
+.main-tab { background: none; border: none; color: var(--c-text-muted); padding: 13px 20px; font-family: var(--f-body); font-size: 13px; font-weight: 700; cursor: pointer; border-bottom: 2px solid transparent; letter-spacing: 0.02em; transition: color .15s, border-color .15s; white-space: nowrap; }
+.main-tab:hover  { color: var(--c-text-primary); }
+.main-tab.active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
+
+/* ── PANELS ── */
+.panel { display: none; padding: 24px; }
+.panel.active { display: block; }
+
+/* ── SUB-TABS ── */
+.sub-nav { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+.sub-tab {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  color: var(--c-text-secondary); padding: 6px 14px;
+  font-family: var(--f-body); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.04em; cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: all .15s;
+}
+.sub-tab:hover  { border-color: var(--c-accent); color: var(--c-text-primary); }
+.sub-tab.active { background: var(--c-surface-active); border-color: var(--c-accent); color: var(--c-accent); }
+.badge { font-family: var(--f-mono); font-size: 10px; font-weight: 500; padding: 1px 6px; letter-spacing: 0.06em; }
+.badge.green { background: var(--c-tag-policy-bg); color: var(--c-tag-policy-fg); }
+.badge.amber { background: var(--c-tag-proc-bg);   color: var(--c-tag-proc-fg); }
+.badge.blue  { background: var(--c-tag-prep-bg);   color: var(--c-tag-prep-fg); }
+.badge.grey  { background: var(--c-tag-ops-bg);    color: var(--c-tag-ops-fg); }
+
+/* ── SOURCE GRID ── */
+.sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 8px; }
+.sources-grid.hidden { display: none; }
+.cat-header { grid-column: 1/-1; font-family: var(--f-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--c-text-muted); padding: 14px 0 8px; border-bottom: 1px solid var(--c-border); display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.cat-header:first-child { margin-top: 0; padding-top: 0; }
+
+/* ── SOURCE CARD ── */
+.src-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-top: 2px solid var(--c-accent);
+  padding: 12px 14px;
+  transition: all 0.18s ease;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.src-card:hover { background: var(--c-surface-hover); border-color: var(--c-border-active); border-top-color: var(--c-accent-dark); box-shadow: 0 2px 8px rgba(232,135,58,0.08); }
+.src-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.src-name { font-family: var(--f-body); font-weight: 700; font-size: 13px; color: var(--c-text-primary); line-height: 1.3; }
+.src-id   { font-family: var(--f-mono); font-size: 10px; color: var(--c-text-muted); margin-top: 2px; letter-spacing: 0.06em; }
+.src-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+.sbadge { font-family: var(--f-mono); font-size: 10px; font-weight: 500; padding: 2px 6px; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid transparent; }
+.sb-active { background: var(--c-tag-policy-bg); color: var(--c-tag-policy-fg); border-color: #BDD4B0; }
+.sb-manual { background: var(--c-tag-proc-bg); color: var(--c-tag-proc-fg); border-color: #F0C8A0; }
+.sb-parked { background: var(--c-tag-ops-bg); color: var(--c-tag-ops-fg); border-color: #DDD8C0; }
+.sb-pipe   { background: var(--c-tag-prep-bg); color: var(--c-tag-prep-fg); border-color: #B8C8E8; }
+.sb-high   { background: var(--c-tag-fin-bg); color: var(--c-tag-fin-fg); border-color: #E8B0A8; }
+.sb-medium { background: var(--c-tag-proc-bg); color: var(--c-tag-proc-fg); border-color: #F0C8A0; }
+.sb-low    { background: var(--c-tag-ops-bg); color: var(--c-tag-ops-fg); border-color: #DDD8C0; }
+
+.src-tags  { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; padding: 2px 6px; border-radius: var(--radius-tag); display: inline-block; }
+.t-api  { background: var(--c-tag-prep-bg);   color: var(--c-tag-prep-fg); }
+.t-rss  { background: var(--c-tag-policy-bg); color: var(--c-tag-policy-fg); }
+.t-html { background: var(--c-tag-plan-bg);   color: var(--c-tag-plan-fg); }
+.t-pw   { background: var(--c-tag-study-bg);  color: var(--c-tag-study-fg); }
+.t-man  { background: var(--c-tag-ops-bg);    color: var(--c-tag-ops-fg); }
+.t-day  { background: var(--c-tag-fin-bg);    color: var(--c-tag-fin-fg); }
+.t-wk   { background: var(--c-tag-proc-bg);   color: var(--c-tag-proc-fg); }
+.t-mon  { background: var(--c-tag-ops-bg);    color: var(--c-tag-ops-fg); }
+.t-t1   { background: var(--c-tag-policy-bg); color: var(--c-tag-policy-fg); }
+.t-t2   { background: var(--c-tag-study-bg);  color: var(--c-tag-study-fg); }
+.t-t3   { background: var(--c-tag-ops-bg);    color: var(--c-tag-ops-fg); }
+.t-sig  { background: var(--c-tag-plan-bg);   color: var(--c-tag-plan-fg); font-size: 10px; }
+
+.src-geo  { font-family: var(--f-mono); font-size: 11px; color: var(--c-text-secondary); letter-spacing: 0.04em; }
+.src-url  { font-family: var(--f-mono); font-size: 10px; color: var(--c-accent); letter-spacing: 0.02em; word-break: break-all; }
+.src-note { font-family: var(--f-body); font-size: 12px; color: var(--c-text-body); line-height: 1.5; border-top: 1px solid var(--c-border-soft); padding-top: 8px; }
+.src-reason { font-family: var(--f-mono); font-size: 10px; padding: 3px 8px; background: var(--c-tag-fin-bg); color: var(--c-tag-fin-fg); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ── KEYWORDS ── */
+.kw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.kw-section { margin-bottom: 28px; }
+.kw-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--c-border); }
+.kw-head h3 { font-family: var(--f-body); font-size: 13px; font-weight: 900; letter-spacing: -0.01em; color: var(--c-text-primary); }
+.kw-count { font-family: var(--f-mono); font-size: 10px; color: var(--c-text-muted); background: var(--c-bg); border: 1px solid var(--c-border); padding: 1px 7px; letter-spacing: 0.06em; }
+.kw-desc  { font-family: var(--f-mono); font-size: 10px; color: var(--c-text-muted); margin-left: auto; max-width: 260px; text-align: right; letter-spacing: 0.04em; }
+.pill-cloud { display: flex; flex-wrap: wrap; gap: 4px; }
+.pill { font-family: var(--f-mono); font-size: 11px; padding: 3px 9px; letter-spacing: 0.06em; border: 1px solid transparent; line-height: 1.4; }
+.p-hi   { background: var(--c-tag-proc-bg); color: var(--c-tag-proc-fg); border-color: #F0C8A0; }
+.p-sec  { background: var(--c-tag-plan-bg); color: var(--c-tag-plan-fg); border-color: #B0D4CC; }
+.p-sig  { background: var(--c-tag-prep-bg); color: var(--c-tag-prep-fg); border-color: #B8C8E8; }
+.p-exc  { background: var(--c-tag-fin-bg);  color: var(--c-tag-fin-fg);  border-color: #E8B0A8; font-size: 10px; }
+.p-ctry { background: var(--c-tag-ops-bg);  color: var(--c-tag-ops-fg);  border-color: #DDD8C0; font-size: 10px; }
+.p-tru  { background: var(--c-tag-study-bg);color: var(--c-tag-study-fg);border-color: #C8B0E0; }
+
+/* ── LIFECYCLE ── */
+.lc-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-bottom: 32px; }
+.phase-card { border: 1px solid var(--c-border); background: var(--c-surface); overflow: hidden; }
+.phase-hdr  { padding: 10px 12px; font-family: var(--f-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; border-top: 3px solid; }
+.phase-num  { font-family: var(--f-body); font-size: 22px; font-weight: 900; display: block; line-height: 1; margin-bottom: 2px; letter-spacing: -0.03em; }
+.phase-lbl  { display: block; font-family: var(--f-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+.phase-body { padding: 8px 10px; display: flex; flex-direction: column; gap: 5px; }
+.sig-item   { font-family: var(--f-body); font-size: 11px; color: var(--c-text-body); line-height: 1.35; padding: 5px 8px; background: var(--c-bg); border-left: 2px solid; }
+.phase-srcs { padding: 6px 10px 10px; border-top: 1px solid var(--c-border-soft); }
+.phase-srcs-lbl  { font-family: var(--f-mono); font-size: 9px; color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
+.phase-srcs-list { display: flex; flex-wrap: wrap; gap: 3px; }
+.src-chip { font-family: var(--f-mono); font-size: 10px; padding: 1px 5px; background: var(--c-bg); color: var(--c-text-muted); border: 1px solid var(--c-border); letter-spacing: 0.04em; }
+.ph1 .phase-hdr { border-top-color: #8A84CC; color: #5A5490; background: #F2F0FA; }  .ph1 .sig-item { border-color: #B8B4E0; }
+.ph2 .phase-hdr { border-top-color: #9A7ACC; color: #6A4A94; background: #F4F0FA; }  .ph2 .sig-item { border-color: #C4B0E0; }
+.ph3 .phase-hdr { border-top-color: #5AAABB; color: #3A7888; background: #EEF5F8; }  .ph3 .sig-item { border-color: #8ABEC8; }
+.ph4 .phase-hdr { border-top-color: #6A8C5A; color: #4A7040; background: #EEF4EB; }  .ph4 .sig-item { border-color: #8AB87A; }
+.ph5 .phase-hdr { border-top-color: var(--c-accent); color: var(--c-accent-dark); background: #FEF0E6; }  .ph5 .sig-item { border-color: var(--c-accent); }
+.ph6 .phase-hdr { border-top-color: #CC6A4A; color: #A04830; background: #FCEAE0; }  .ph6 .sig-item { border-color: #E09070; }
+.ph7 .phase-hdr { border-top-color: #8A8070; color: #5A5248; background: #F4F2E8; }  .ph7 .sig-item { border-color: #B8B0A0; }
+.ref-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.ref-table th { padding: 9px 14px; text-align: left; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-text-muted); font-weight: 500; background: var(--c-bg); border-bottom: 1px solid var(--c-border); }
+.ref-table td { padding: 7px 14px; border-bottom: 1px solid var(--c-border-soft); color: var(--c-text-body); font-family: var(--f-body); font-size: 12px; }
+.ref-table td.pc { vertical-align: top; border-right: 1px solid var(--c-border); }
+.ref-table td.lc { vertical-align: top; border-right: 1px solid var(--c-border); }
+.callout { background: var(--c-surface-active); border: 1px solid var(--c-border-active); border-left: 3px solid var(--c-accent); padding: 14px 18px; margin-bottom: 22px; display: flex; align-items: flex-start; gap: 14px; }
+.callout-icon  { font-size: 18px; flex-shrink: 0; line-height: 1.4; color: var(--c-accent); font-weight: 900; }
+.callout-title { font-family: var(--f-body); font-size: 13px; font-weight: 900; color: var(--c-accent-dark); margin-bottom: 5px; letter-spacing: -0.01em; }
+.callout-body  { font-family: var(--f-body); font-size: 12px; color: var(--c-text-body); line-height: 1.55; }
+@media(max-width:1100px){.lc-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:800px){.lc-grid{grid-template-columns:repeat(2,1fr)}.kw-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">CE</div>
+  <div class="header-title">
+    <h1>Opportunity Scanner</h1>
+    <p>Electricity &amp; Water Infrastructure · Catalyst Energy</p>
+  </div>
+  <div class="header-right">
+    <div class="ver-badge">git ba05c03</div>
+    <div class="ver-date">Generated 7 May 2026, 21:08 UTC</div>
+  </div>
+</header>
+
+<div class="stats-bar" id="stats-bar"></div>
+
+<nav class="main-nav">
+  <button class="main-tab active" onclick="showPanel('sources',this)">Signal Sources</button>
+  <button class="main-tab" onclick="showPanel('keywords',this)">Keywords</button>
+  <button class="main-tab" onclick="showPanel('lifecycle',this)">Signal Lifecycle</button>
+</nav>
+
+<div id="panel-sources" class="panel active">
+  <div class="sub-nav" id="sub-nav-sources"></div>
+  <div id="auto-grid"     class="sources-grid"></div>
+  <div id="manual-grid"   class="sources-grid hidden"></div>
+  <div id="pipeline-grid" class="sources-grid hidden"></div>
+  <div id="parked-grid"   class="sources-grid hidden"></div>
+</div>
+<div id="panel-keywords"  class="panel"></div>
+<div id="panel-lifecycle" class="panel"></div>
+
+<script>
+
+    // ── GENERATED DATA ── do not edit manually ────────────────────────────
+    // Generated: 7 May 2026, 21:08 UTC | git ba05c03
+    const VERSION  = {"hash": "ba05c03", "long": "ba05c036d283d4b7961d616f19b5e5b0d24a2759", "date": "2026-05-07", "generated": "7 May 2026, 21:08 UTC", "iso": "2026-05-07T21:08:31.895564+00:00"};
+    const AUTO     = {"daily": [{"id": "pv_tech", "name": "PV-Tech", "tier": 1, "method": "RSS", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "project_announcement", "note": "Global solar/PV trade publication. SSA filter required — most items are not SSA. Expect 1–3 SSA items/run. High quality when matched — covers large-scale solar project announcements and financial closes. Dry-run validate…", "url": "https://www.pv-tech.org/feed/"}, {"id": "google_news_finance", "name": "Google News — SSA Energy Finance", "tier": 1, "method": "RSS", "cadence": "daily", "geo": "SSA (query-scoped)", "signal": "financing_round", "note": "Google News RSS aggregating SSA energy financial close news from all publications. Query pre-scoped to \"financial close\" + \"energy\" + \"Africa\". SIGNAL_KEYWORDS filter applied (filter_mode: market_signal) as secondary. No…", "url": "https://news.google.com/rss/search?q=%22financial+close%22+%22energy%22+%22Africa%22&hl=en-US&gl=US&ceid=US:en"}, {"id": "nersa", "name": "NERSA — National Energy Regulator of South Africa", "tier": 1, "method": "HTML", "cadence": "daily", "geo": "South Africa", "signal": "market_entry", "note": "South Africa energy regulator. Issues tariff determinations (Eskom, municipalities, distributors), generation licenses, gas regulatory decisions, RERIPPPP updates. filter_mode: trusted — all NERSA items are electricity/e…", "url": "https://www.nersa.org.za/news-publications/media"}, {"id": "erb_zm", "name": "ERB — Energy Regulation Board (Zambia)", "tier": 1, "method": "HTML", "cadence": "daily", "geo": "Zambia", "signal": "market_entry", "note": "Zambia Energy Regulation Board — directly relevant to Catalyst's home market. Items of interest: IPP licensing rounds, tariff reviews, fuel price decisions, mini-grid and off-grid licensing, electricity tariff orders, co…", "url": "https://www.erb.org.zm/newsroom"}, {"id": "epra", "name": "EPRA — Energy and Petroleum Regulatory Authority (Kenya)", "tier": 2, "method": "Playwright", "cadence": "daily", "geo": "Kenya", "signal": "market_entry", "note": "Kenyan energy regulator (formerly ERC, rebranded EPRA 2019). Issues generation/distribution licenses, petroleum pricing, LPG regulation, EV charging regulatory framework, Net Metering approvals. Kenya is a major SSA ener…", "url": "https://www.epra.go.ke/taxonomy/term/33"}, {"id": "nerc_ng", "name": "NERC — Nigerian Electricity Regulatory Commission", "tier": 1, "method": "HTML", "cadence": "daily", "geo": "Nigeria", "signal": "market_entry", "note": "Nigeria Electricity Regulatory Commission. Issues generation, transmission, distribution, and system operator licenses. Approves electricity tariffs (MYTO). Issues Minigrid Regulations, Energy Cap orders, generation cons…", "url": "https://nerc.gov.ng/media-category/news/"}, {"id": "proparco_news", "name": "Proparco — Press Releases", "tier": 1, "method": "HTML", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "financing_round", "note": "Proparco investment news (separate from PLACE procurement platform). French DFI — publishes equity investment announcements for SSA energy/infra. filter_mode: market_signal — SECTOR_KEYWORDS or SIGNAL_KEYWORDS required. …", "url": "https://www.proparco.fr/en/actualites"}, {"id": "ifc_investment", "name": "IFC — Investment Projects", "tier": 2, "method": "Playwright", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "financing_round", "note": "IFC investment projects (distinct from ifc advisory source). Same Angular SPA — same Playwright architecture, same selectors. URL: f_type_description=Investment%20Projects. Page 1 only (pagination future work). filter_mo…", "url": "https://disclosures.ifc.org/enterprise-search-results-home?f_type_description=Investment"}], "weekly": [{"id": "world_bank", "name": "World Bank", "tier": 1, "method": "API", "cadence": "weekly", "geo": "AFR Region", "signal": "project_announcement", "note": "", "url": "https://search.worldbank.org/api/v2/projects"}, {"id": "wb_pipeline", "name": "World Bank Pipeline", "tier": 1, "method": "API", "cadence": "weekly", "geo": "AFR Region", "signal": "project_announcement", "note": "", "url": "https://search.worldbank.org/api/v2/projects"}, {"id": "afdb_rss", "name": "AfDB", "tier": 1, "method": "RSS + HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "RSS feeds confirmed returning 0 entries (2026-04-22) — AfDB likely changed feed structure. HTML fallback also returning 0 — Cloudflare blocking. Both methods exhausted. AfDB coverage is dark until Playwright tier is wire…", "url": "https://www.afdb.org/en/projects-and-operations/procurement/rss.xml"}, {"id": "afdb_html", "name": "AfDB (HTML fallback)", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "Fallback for afdb_rss. Cloudflare may block direct HTML access. If this also fails, AfDB coverage is lost until Playwright tier is wired in. See afdb_playwright (tier 2, parked) for the future path", "url": "https://www.afdb.org/en/documents/project-related-procurement/procurement-notices/request-for-expression-of-interest"}, {"id": "pidg", "name": "PIDG", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "High signal density — 1-2 items per run, all relevant. Confirmed live example: Sabaki Water Carrier PPP transaction advisory RFP (Kenya, Oct 2025). Selectors are WordPress-inferred; verify if yield drops to zero", "url": "https://www.pidg.org/about-us/tenders/"}, {"id": "zesco", "name": "ZESCO", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Zambia", "signal": "procurement_notice", "note": "ZESCO is executing a USD 6.4B investment programme 2023–2031. Direct counterparty — advisory mandates (IE, ESIA, regulatory) expected continuously. DFI-financed ZESCO tenders also appear in afdb_rss and world_bank feeds", "url": "https://www.zesco.co.zm/tender.php"}, {"id": "nampower", "name": "NamPower", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Namibia", "signal": "procurement_notice", "note": "Active capex programme: 400kV Auas-Gerus transmission line plus grid reinforcement. Direct counterparty in Namibia. Verify selector with: curl -A \"Mozilla/5.0\" https://www.nampower.com.na/procurement/bids?category=1 | gr…", "url": "https://www.nampower.com.na/procurement/bids?category=1"}, {"id": "zppa", "name": "ZPPA", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Zambia", "signal": "procurement_notice", "note": "Covers all Government of Zambia entities including ZESCO, ERB, Ministry of Energy. 69,000+ historical records. Portal has intermittent maintenance outages. If e-GP redirects to a login page, the session may require cooki…", "url": "https://eprocure.zppa.org.zm/epps/quickSearchAction.do?searchSelect=6"}, {"id": "ted", "name": "TED (EU Procurement Journal)", "tier": 1, "method": "API", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "TED (Tenders Electronic Daily) — EU official procurement journal. Captures EU-funded advisory mandates for SSA projects procured by EC delegations, EDF, and bilateral EU DFIs. No authentication required. API validated li…", "url": "https://api.ted.europa.eu/v3/notices/search"}, {"id": "etenders_za", "name": "eTenders South Africa (National Treasury)", "tier": 1, "method": "API", "cadence": "weekly", "geo": "South Africa", "signal": "procurement_notice", "note": "South Africa National Treasury Transparency Portal — OCDS-compliant JSON API (public beta, CC BY 4.0). Covers all SA government procurement: departments, municipalities, state-owned entities (Eskom, DBSA, NERSA). Very hi…", "url": "https://ocds-api.etenders.gov.za/api/OCDSReleases"}, {"id": "dbsa", "name": "DBSA", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "South Africa", "signal": "procurement_notice", "note": "Development Bank of Southern Africa. Issues advisory and infrastructure RFPs across southern Africa. Validated live (2026-04-23): 14 tenders fetched, titles contain full scope description. Keyword filtering applies — tru…", "url": "https://www.dbsa.org/procurement"}, {"id": "ppda_mw", "name": "PPDA Malawi", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Malawi", "signal": "procurement_notice", "note": "Malawi Public Procurement and Disposal of Assets Authority. Covers all Malawi government entities including ESCOM and EGENCO — key market for Catalyst. Validated (2026-04-23): static HTML table, 1 active tender at time o…", "url": "https://www.ppda.mw/tenders"}, {"id": "ppa_gh", "name": "GHANEPS (Ghana e-GP)", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Ghana", "signal": "procurement_notice", "note": "Ghana e-Government Procurement System (GHANEPS). Validated live (2026-04-23): 10 open tenders, Java/Struts layout identical to ZPPA. Col 1 = title anchor, col 2 = procuring entity. tenders.ppa.gov.gh subdomain is fully u…", "url": "https://www.ghaneps.gov.gh/epps/quickSearchAction.do?searchSelect=6"}, {"id": "seforall", "name": "SEforALL", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "Sustainable Energy for All. Domain in TRUSTED_SOURCES in keywords.py — trusted_source: true bypasses keyword filtering. High-signal source for SSA energy access advisory mandates. Validated (2026-04-23): page accessible…", "url": "https://www.seforall.org/who-we-are/work-with-us/procurement-opportunities"}, {"id": "giz", "name": "GIZ", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "Deutsche Gesellschaft für Internationale Zusammenarbeit. German bilateral DFI — issues advisory mandates for SSA energy and infrastructure. Real tender platform: ausschreibungen.giz.de (giz.de landing page links here). V…", "url": "https://ausschreibungen.giz.de/"}, {"id": "afd", "name": "AFD (dgMarket)", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "Agence Française de Développement — French bilateral DFI. dgMarket is AFD's dedicated procurement portal (154 active notices; covers SSA, Maghreb, Asia). Validated live (2026-04-23): tr.odd/tr.even rows, col 1 = title li…", "url": "https://afd.dgmarket.com/tenders/brandedNoticeList.do"}, {"id": "ungm", "name": "UNGM", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "UN Global Marketplace. POST endpoint confirmed (2026-04-29) — Playwright not needed. Downgrated to Tier 1 html with html_post_body config. Validated: div.tableRow.dataRow rows, .resultTitle .ungm-title for title, div.tab…", "url": "https://www.ungm.org/Public/Notice/Search"}, {"id": "ifc", "name": "IFC", "tier": 2, "method": "Playwright", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "project_announcement", "note": "IFC Project Information & Data Portal. Angular SPA confirmed (2026-05-04) — Playwright required; static requests return empty shell. URL CORRECTED: /project-detail/SPI is 404 (old format). Correct URL filters Advisory Se…", "url": "https://disclosures.ifc.org/enterprise-search-results-home?f_type_description=Advisory%20Services"}]};
+    const MANUAL   = [{"id": "nocopo", "name": "Nigeria NOCOPO (BPP Open Contracting)", "tier": 3, "method": "HTML", "cadence": "weekly", "geo": "Nigeria", "signal": "procurement_notice", "note": "Nigeria Open Contracting Portal (NOCOPO) — Bureau of Public Procurement (BPP). OCDS-compliant (OCP global innovation award 2017). Task brief URL nococo.bpp.gov.ng is a typo; correct: nocopo.bpp.gov.ng. DRY-RUN RESULT (20…", "url": "", "status_note": "SSL cert expired"}, {"id": "edm_manual", "name": "EDM (Electricidade de Moçambique)", "tier": 3, "method": "HTML", "cadence": "weekly", "geo": "Mozambique", "signal": "procurement_notice", "note": "EDM does not maintain a structured web portal. Tenders are posted as PDFs and distributed via email list. Direct counterparty relationship — prioritise any notice involving advisory, ESIA, or grid study scopes", "url": "", "status_note": "PDF / email distribution"}, {"id": "escom_manual", "name": "ESCOM (Malawi)", "tier": 3, "method": "HTML", "cadence": "weekly", "geo": "Malawi", "signal": "procurement_notice", "note": "ESCOM web presence is unreliable. Direct contact is the more reliable channel. Key scopes to watch: transmission advisory, grid rehabilitation, loss reduction studies", "url": "", "status_note": "Unreliable web presence"}, {"id": "linkedin_manual", "name": "LinkedIn (advisory mandates)", "tier": 3, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "LinkedIn blocks automated access. Manual scan captures advisory mandates that are not formally tendered — direct awards announced via company posts, or roles that signal a mandate is live (e.g. \"seeking independent engin…", "url": "", "status_note": "No automation possible"}, {"id": "namibia_egp", "name": "Namibia e-GP (eProcurement Portal)", "tier": 3, "method": "HTML", "cadence": "weekly", "geo": "Namibia", "signal": "procurement_notice", "note": "Namibia Ministry of Finance eProcurement Portal (Portal Ariel platform). Recon (2026-05-04): eprocurement.gov.na is accessible (static HTML reference site — regulations, FAQ, guidance documents). The actual bid listings …", "url": "", "status_note": "Gov-network restricted"}, {"id": "mozambique_cp", "name": "Mozambique contratação pública (IGA Portal)", "tier": 3, "method": "HTML", "cadence": "weekly", "geo": "Mozambique", "signal": "procurement_notice", "note": "Mozambique public procurement portal — Instituto de Gestão das Aquisições (IGA). Recon (2026-05-04): contratacaopublica.gov.mz is inaccessible from outside Mozambique — connection error/timeout on every attempt. Likely g…", "url": "", "status_note": "Geo-restricted / offline"}, {"id": "conferences_manual", "name": "Conferences & events", "tier": 3, "method": "HTML", "cadence": "monthly", "geo": "Global (SSA filter)", "signal": "conference", "note": "Conferences surface early-stage mandates before they are formally tendered and provide direct access to DFI procurement decision-makers. Monthly cadence is sufficient — adjust to fortnightly during peak season (Q1, Q3)", "url": "", "status_note": "Manual scan"}];
+    const PIPELINE = [{"rank": 1, "id": "afdb_portal", "name": "AfDB Projects Data Portal", "priority": "HIGH", "category": "Multilateral DFI", "url": "projectsportal.afdb.org", "method": "HTML", "tier": 1, "note": "Currently dark. DNS geo-restricted locally; GitHub Actions (US) should resolve. Grails HTML tables — already in sources.yaml as parked. Enable and check GH Actions logs for selectors.\n"}, {"rank": 2, "id": "ifc_investment_svc", "name": "IFC Investment Services", "priority": "HIGH", "category": "Multilateral DFI", "url": "disclosures.ifc.org", "method": "Playwright", "tier": 2, "note": "One-line extension of active ifc source. Use f_type_description=Investment+Services. Same Angular SPA, same selectors confirmed. Already in sources.yaml as ifc_investment (active).\n"}, {"rank": 3, "id": "gcf", "name": "Green Climate Fund", "priority": "HIGH", "category": "Climate & Blended Finance", "url": "greenclimate.fund", "method": "API + HTML", "tier": 1, "note": "High signal density for SSA energy/water advisory pipeline. Public project API candidate at /api/v1/projects — confirm fields and auth. Also probe /about/procurement for direct notices.\n"}, {"rank": 4, "id": "african_power_platform", "name": "African Power Platform", "priority": "HIGH", "category": "Sector Intelligence", "url": "africanpowerplatform.org", "method": "HTML (WordPress)", "tier": 1, "note": "SSA-only power sector news aggregator. Fills ESI-Africa gap if accessible. WordPress likely — probe /feed/ for RSS. trusted_source candidate once validated.\n"}, {"rank": 5, "id": "eep_africa", "name": "EEP Africa", "priority": "HIGH", "category": "Programme Operators", "url": "eepafrica.org", "method": "HTML (WordPress)", "tier": 1, "note": "Energy and Environment Partnership — East/Southern Africa focused fund. Probe /news and /financing for calls for proposals. trusted_source candidate once validated.\n"}, {"rank": 6, "id": "aecf", "name": "AECF", "priority": "HIGH", "category": "Programme Operators", "url": "aecfafrica.org", "method": "HTML (WordPress)", "tier": 1, "note": "Africa Enterprise Challenge Fund. SSA-only. Probe /news and /challenges. WordPress likely — RSS feed probably available. trusted_source candidate.\n"}, {"rank": 7, "id": "norfund", "name": "Norfund", "priority": "HIGH", "category": "Bilateral DFIs", "url": "norfund.no", "method": "HTML + RSS", "tier": 1, "note": "Norwegian DFI investment arm. Probe norfund.no/investments and /news for financing closes. RSS likely at /rss or /news/rss. High per-item signal for SSA energy investments.\n"}, {"rank": 8, "id": "fmo", "name": "FMO", "priority": "HIGH", "category": "Bilateral DFIs", "url": "fmo.nl", "method": "HTML + RSS", "tier": 1, "note": "Netherlands DFI. Manages African Energy Fund (AEF). Probe /news and /en/news/rss. Also probe fmo.nl/aef for AEF-specific programme updates.\n"}, {"rank": 9, "id": "cif", "name": "Climate Investment Funds", "priority": "HIGH", "category": "Climate & Blended Finance", "url": "cif.org", "method": "HTML", "tier": "1/2", "note": "Blended finance for SSA energy transition. Probe /news and /calls for proposals. May be light JS (Tier 2). RSS probe at /feed/ and /rss.xml.\n"}, {"rank": 10, "id": "climate_fund_managers", "name": "Climate Fund Managers (REPP/CI2)", "priority": "HIGH", "category": "Climate & Blended Finance", "url": "climatefundmanagers.com", "method": "Playwright", "tier": 2, "note": "Manages REPP/CI2 SSA-only funds. Hash routing confirms SPA — Playwright required. trusted_source candidate once validated. High per-item signal.\n"}, {"rank": 11, "id": "kfw_deg", "name": "KfW / DEG", "priority": "HIGH", "category": "Bilateral DFIs", "url": "deginvest.de + kfw-entwicklungsbank.de", "method": "HTML", "tier": 1, "note": "Completes German bilateral ecosystem (GIZ already active). DEG = private sector investment arm — highest advisory signal. KfW = ODA loan approvals. Probe both RSS feeds.\n"}, {"rank": 12, "id": "jica", "name": "JICA", "priority": "MEDIUM", "category": "Bilateral DFIs", "url": "jica.go.jp/english", "method": "HTML + RSS", "tier": 1, "note": "Japan bilateral DFI. RSS feeds known at /english/rss/ and /english/news/rss.xml. ODA loans and technical assistance announcements. SSA filter required — global.\n"}, {"rank": 13, "id": "mcc", "name": "MCC", "priority": "MEDIUM", "category": "Bilateral DFIs", "url": "mcc.gov", "method": "HTML", "tier": 1, "note": "Millennium Challenge Corporation. Low cadence but very high signal per item: MCC compacts = multi-hundred-million USD infrastructure programmes. US .gov — typically static and well-structured.\n"}, {"rank": 14, "id": "au_bids", "name": "African Union Commission", "priority": "MEDIUM", "category": "Procurement Portals", "url": "au.int/en/bids", "method": "HTML", "tier": 1, "note": "Pan-African institution. Energy/infrastructure advisory mandates from AU bodies. Also probe au.int/en/newsroom for programme announcements. Geography filter required.\n"}, {"rank": 15, "id": "tendersoko", "name": "TenderSoko", "priority": "MEDIUM", "category": "Sector Intelligence", "url": "tendersoko.com", "method": "HTML/RSS", "tier": "1/2", "note": "East Africa tender aggregator (Kenya, Tanzania, Uganda, Rwanda). Workaround for dark KPLC, TANESCO, and PPRA-TZ. Probe for RSS feed. Energy keyword filter required.\n"}, {"rank": 16, "id": "eaif", "name": "EAIF", "priority": "MEDIUM", "category": "Climate & Blended Finance", "url": "eaif.com", "method": "HTML", "tier": "1/3", "note": "Emerging Africa Infrastructure Fund. Low update cadence but high signal per item. SSA-only fund — trusted_source candidate. Probe /news-and-media and /transactions.\n"}, {"rank": 17, "id": "afc_capital", "name": "AFC Capital", "priority": "MEDIUM", "category": "Climate & Blended Finance", "url": "afccapital.org", "method": "Unknown (probe)", "tier": "1/3", "note": "Africa Finance Corporation. SSA-focused. Probe /newsroom and /portfolio for access method. Project and investment announcements signal advisory demand.\n"}];
+    const PARKED   = [{"id": "find_tender", "name": "Find a Tender (UK)", "tier": 1, "method": "API", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "UK Find a Tender Service (FTS) — post-Brexit replacement for OJEU for UK public procurement. Target signal: FCDO-funded and ODA advisory mandates tendered by UK contracting authorities for SSA projects (independent engin…", "url": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages", "reason": "UK domestic noise — no SSA filter"}, {"id": "tanesco", "name": "TANESCO (Tanzania)", "tier": 2, "method": "Playwright", "cadence": "weekly", "geo": "Tanzania", "signal": "procurement_notice", "note": "Tanzania Electric Supply Company. Playwright validation attempted 2026-04-23 — blocked. Three separate issues: (1) SSL cert common name mismatch (ignore_https_errors required), (2) Angular NG04002 routing error — /procur…", "url": "https://tanesco.co.tz/procurement/current-tenders", "reason": "Site broken — SSL / routing error"}, {"id": "kplc", "name": "KPLC (Kenya Power)", "tier": 2, "method": "Playwright", "cadence": "weekly", "geo": "Kenya", "signal": "procurement_notice", "note": "Kenya Power and Lighting Company. Confirmed Cloudflare bot challenge (2026-04-23) — cf-mitigated: challenge on all requests, curl and requests both blocked. Moved to Tier 2 (playwright). Activate after Stage 2c. URL conf…", "url": "https://www.kplc.co.ke/tender-notices", "reason": "Cloudflare blocked"}, {"id": "kengen", "name": "KenGen (Kenya)", "tier": 2, "method": "Playwright", "cadence": "weekly", "geo": "Kenya", "signal": "procurement_notice", "note": "Kenya Electricity Generating Company. Confirmed JS-rendered (2026-04-23) — Next.js app at tenders.kengen.co.ke. Static HTML contains no tender listings. POST /api/tenders returns 401 Unauthorized — requires auth token in…", "url": "https://tenders.kengen.co.ke/tenders/Open%20International", "reason": "JS-rendered; API auth-walled"}, {"id": "ppra_tz", "name": "PPRA Tanzania (NeST)", "tier": 2, "method": "Playwright", "cadence": "weekly", "geo": "Tanzania", "signal": "procurement_notice", "note": "Tanzania PPRA national e-procurement system (NeST at nest.go.tz). Confirmed Angular SPA (2026-04-23) — app-root shell, body shows \"Loading...\". All /api/* paths return the SPA shell (no public JSON API). Old portal tende…", "url": "https://nest.go.tz/", "reason": "Angular SPA, no public API"}, {"id": "proparco", "name": "Proparco", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "Proparco — AFD Group private sector arm. As of 2025-02-01, Proparco migrated all new procurement to PLACE (Plateforme des Achats de l'État — French gov procurement platform). The proparco.fr page is now a landing page on…", "url": "https://www.proparco.fr/en/proparco-public-procurement", "reason": "Migrated to PLACE platform"}, {"id": "afdb_playwright", "name": "AfDB (Playwright direct)", "tier": 2, "method": "Playwright", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "procurement_notice", "note": "Cloudflare blocks all direct requests including RSS (as of 2026-04). Use this if afdb_rss and afdb_html both fail consistently. Activate only after Playwright tier is confirmed working end-to-end", "url": "https://www.afdb.org/en/documents/project-related-procurement/procurement-notices", "reason": "Cloudflare blocked"}, {"id": "esi_africa", "name": "ESI-Africa", "tier": 1, "method": "RSS", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "project_announcement", "note": "Leading SSA power/energy trade publication. High value if accessible. 2026-05-05: Cloudflare managed challenge confirmed (cType: managed) on /feed/. requests returns 403; feedparser direct also blocked. Standard Playwrig…", "url": "https://www.esi-africa.com/feed/", "reason": "Cloudflare managed challenge"}, {"id": "bii_news", "name": "BII News", "tier": 1, "method": "HTML", "cadence": "weekly", "geo": "Global (SSA filter)", "signal": "financing_round", "note": "", "url": "https://www.bii.co.uk/en/news-insight/news/", "reason": "Parked — see notes"}, {"id": "afrik21", "name": "AFRIK21", "tier": 1, "method": "RSS", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "project_announcement", "note": "DOMAIN DEPRECATED (confirmed 2026-05-05 via manual check). Feed and domain are no longer active. Do not activate. Francophone SSA coverage gap remains — identify a replacement source covering DRC, Cameroon, Senegal, Mali…", "url": "https://www.afrik21.africa/en/feed/", "reason": "Domain deprecated"}, {"id": "afdb_portal", "name": "AfDB Projects Data Portal", "tier": 1, "method": "HTML", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "project_announcement", "note": "AfDB Projects Data Portal — separate subdomain from Cloudflare-blocked afdb.org. GEO-RESTRICTED: DNS fails locally. Domain live (confirmed via search index 2026-05-05). GitHub Actions (US) should resolve — enable and val…", "url": "https://projectsportal.afdb.org/dataportal/VProject/ongoingProjects", "reason": "Cloudflare blocked"}, {"id": "africa_energy_portal", "name": "Africa Energy Portal", "tier": 2, "method": "Playwright", "cadence": "daily", "geo": "Global (SSA filter)", "signal": "project_announcement", "note": "SSA energy news aggregator — pre-filtered to SSA energy topics. filter_mode: market_signal — SECTOR_KEYWORDS or SIGNAL_KEYWORDS required. BLOCKED (2026-05-05): html returns 403 site-wide; Playwright times out on navigati…", "url": "https://africa-energy-portal.org/news", "reason": "Cloudflare blocked"}];
+    const KEYWORDS = {"high_priority": ["transaction advisor", "transaction advisory", "lender's technical advisor", "lender's engineer", "independent technical advisor", "independent technical advisory", "ipp advisory", "ipp procurement advisory", "ppa structuring", "power purchase agreement advisory", "bankability assessment", "feasibility study advisor", "pre-feasibility study", "project preparation facility", "independent engineer", "financial advisory", "regulatory advisory", "due diligence", "independent validation", "procurement support", "tender support", "water sector advisory", "water utility advisory", "water transaction advisor", "water transaction advisory", "water ppp advisory", "water concession advisory", "bulk water advisory", "bulk water transaction advisory", "desalination transaction advisor", "iwp transaction advisor", "iwpp transaction advisor", "water sector transaction advisor", "independent water engineer", "lender's technical advisor water", "lenders technical advisor desalination", "independent engineer water", "independent engineer desalination", "owner's engineer water", "owner's engineer desalination", "feasibility study water", "feasibility study desalination", "water feasibility study", "bankability assessment water", "water tariff study", "cost recovery analysis water", "iwp procurement advisory", "water sector procurement", "water regulatory advisor", "water sector regulatory", "water utility regulatory"], "sector": ["technical assistance", "technical advisory", "market assessment", "project development advisor", "implementation support", "site assessment", "environmental and social assessment", "esia", "e&s advisory", "project monitoring", "capacity building", "solar pv", "photovoltaic", "renewable energy", "wind power", "run-of-river hydro", "hydropower", "gas-to-power", "battery storage", "bess", "hybrid power", "utility-scale", "off-grid", "mini-grid", "grid connection", "transmission", "wheeling", "independent power producer", "ipp", "concessioning", "ppp", "ppa", "build-operate-transfer", "boot", "offtake", "water supply", "water utility", "water authority", "water board", "bulk water", "bulk water supply", "water treatment", "water treatment plant", "wastewater", "wastewater treatment", "water reticulation", "water distribution", "water infrastructure", "water concession", "water ppp", "water tariff", "water resource management", "water sector", "irrigation scheme", "dam advisory", "sanitation", "sewerage", "wash", "potable water", "non-revenue water", "desalination", "desalinisation", "reverse osmosis", "swro", "bwro", "brackish water", "multi-stage flash", "multi-effect distillation", "brine management", "brine disposal", "brine impact", "seawater intake", "independent water producer", "iwp", "iwpp", "bulk water purchase agreement", "bwpa", "dbo", "dbom"], "signal": ["financial close", "financial closure", "achieves financial close", "reaches financial close", "financial close achieved", "preferred bidder", "preferred developer", "preferred offeror", "final investment decision", " fid ", "board approval", "board approved", "approved by the board", "concept note", "project concept note", "project preparation", "project appraisal", "commissioning", "commercial operation date", " cod ", "power purchase agreement signed", "ppa signed", "ppa executed", "offtake agreement signed", "offtake agreement executed", "tariff review", "tariff determination", "tariff increase", "tariff decision", "license granted", "license awarded", "generation license", "distribution license", "operating license", "concession awarded", "regulatory approval", "regulatory decision", "regulatory order", "environmental approval", "eia approved", "eia approval", "loan agreement", "grant agreement", "financing agreement", "credit facility", "debt financing", "equity investment", "blended finance", "concessional financing", "signs agreement", "signing ceremony", "reaches financial", "achieves financial"], "exclusion": ["agricultural tools", "agricultural inputs", "agricultural equipment", "agricultural materials", "agro-pastoral", "pastoral and agro", "seeds and seedlings", "vegetable seeds", "grain thresher", "livestock asset", "livestock support", "semen bank", "borehole drilling", "drilling of boreholes", "drilling of two boreholes", "drilling of 2", "forage seed", "fertiliser procurement", "fertilizer procurement", "school curricula", "school textbook", "school handbook", "school supplies", "equipement de", "in-service kindergarten", "kindergarten teacher", "teacher professional development", "printing of information education", "printing of iec", "latrine", "health insurance", "assurance maladie", "medical equipment", "medical supplies", "sanitary items", "nutrition survey", "nutritionnelles", "polices d'assurance", "office furniture", "mobiliers de bureaux", "procurement of laptops", "procurement of computers", "pcs of laptops", "cement bags", "bags of cement", "local construction materials", "industrial construction materials", "gravel", "communication equipment", "printing of books", "provision of uniforms", "procurement of vehicles", "food ration", "food supply", "refurbishment works", "procurement of grain", "ai equipment", "school construction handbook", "auditeur interne", "internal auditor", "spécialiste en passation", "recrutement d'un comptable", "recrutement d'une ong", "internet lines", "voice solution", "cybersecurity", "cyber security", "cyber defence", "cyber defense", "cleaning services", "nitrogen bottles", "nitrogen cylinders", "anti-fraud", "whistle blowing", "whistleblowing", "fraud hotline", "fraud management", "design, supply", "supply and installation of", "overhead transmission line", "procurement of works", "zesco/onb", "scada/ems", "crm system", "customer relationship management system", "super vendor", "token selling", "token vending", "electricity tokens on behalf", "business continuity", "health assessment", "annual health", "b-bbee", "bbbee", "bbee verification", "landfill", "equity valuation", "recruitment services", "forensic investigation", "pest control"], "trusted": ["worldbank.org", "ifc.org", "afdb.org", "undb.org", "dfc.gov", "pidg.org", "seforall.org"], "ssa_countries": ["Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cameroon", "Cape Verde", "Central African Republic", "Chad", "Comoros", "Congo", "Drc", "Democratic Republic Of Congo", "Djibouti", "Equatorial Guinea", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea", "Guinea-Bissau", "Ivory Coast", "Cote D'Ivoire", "Côte D'Ivoire", "Kenya", "Lesotho", "Liberia", "Madagascar", "Malawi", "Mali", "Mauritania", "Mauritius", "Mozambique", "Namibia", "Niger", "Nigeria", "Rwanda", "Sao Tome", "Senegal", "Seychelles", "Sierra Leone", "Somalia", "South Africa", "South Sudan", "Sudan", "Tanzania", "Togo", "Uganda", "Zambia", "Zimbabwe", "Sub-Saharan Africa", "East Africa", "West Africa", "Southern Africa", "Central Africa", "Sadc", "Ecowas", "Eac"]};
+    const COUNTS   = {"auto": 26, "manual": 7, "parked": 12, "pipeline": 17};
+    // ── END GENERATED DATA ────────────────────────────────────────────────
+
+
+// ── NAV ────────────────────────────────────────────────────────────────────
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+function showSrc(type, btn) {
+  ['auto-grid','manual-grid','pipeline-grid','parked-grid'].forEach(id =>
+    document.getElementById(id).classList.add('hidden'));
+  document.querySelectorAll('#panel-sources .sub-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(type + '-grid').classList.remove('hidden');
+  if (btn) btn.classList.add('active');
+}
+
+// ── STATS BAR ──────────────────────────────────────────────────────────────
+(function buildStats() {
+  const items = [
+    { n: COUNTS.auto,     label: 'Automated Sources', col: '#6A8C5A' },
+    { n: COUNTS.manual,   label: 'Manual Sources',    col: '#C47030' },
+    { n: COUNTS.pipeline, label: 'In Pipeline',       col: '#4A6A9C' },
+    { n: COUNTS.parked,   label: 'Parked',            col: '#9C8E84' },
+    { n: 20,              label: 'Signal Types',      col: '#7A5A9C' },
+  ];
+  document.getElementById('stats-bar').innerHTML = items.map(i => `
+    <div class="stat-item">
+      <div class="stat-dot" style="background:${i.col}"></div>
+      <div><div class="stat-num" style="color:${i.col}">${i.n}</div>
+           <div class="stat-label">${i.label}</div></div>
+    </div>`).join('');
+})();
+
+// ── SUB NAV ────────────────────────────────────────────────────────────────
+(function buildSubNav() {
+  document.getElementById('sub-nav-sources').innerHTML = `
+    <button class="sub-tab active" onclick="showSrc('auto',this)">Automated <span class="badge green">${COUNTS.auto}</span></button>
+    <button class="sub-tab" onclick="showSrc('manual',this)">Manual <span class="badge amber">${COUNTS.manual}</span></button>
+    <button class="sub-tab" onclick="showSrc('pipeline',this)">Pipeline <span class="badge blue">${COUNTS.pipeline}</span></button>
+    <button class="sub-tab" onclick="showSrc('parked',this)">Parked <span class="badge grey">${COUNTS.parked}</span></button>`;
+})();
+
+// ── HELPERS ────────────────────────────────────────────────────────────────
+function mTag(m) {
+  const map = { 'API':'t-api','API POST':'t-api','RSS':'t-rss','RSS + HTML':'t-rss',
+    'HTML':'t-html','HTML POST':'t-html','HTML (WordPress)':'t-html','HTML (WP)':'t-html',
+    'HTML + RSS':'t-rss','HTML/RSS':'t-rss','Playwright':'t-pw','Manual':'t-man','Unknown (probe)':'t-man' };
+  return `<span class="tag ${map[m]||'t-html'}">${m}</span>`;
+}
+function cTag(c) {
+  return `<span class="tag ${c==='daily'?'t-day':c==='weekly'?'t-wk':'t-mon'}">${c}</span>`;
+}
+function tTag(t) {
+  const s = String(t);
+  return `<span class="tag ${s.startsWith('1')?'t-t1':s.startsWith('2')?'t-t2':'t-t3'}">T${t}</span>`;
+}
+function sTag(s) { return s?`<span class="tag t-sig">${s.replace(/_/g,' ')}</span>`:''; }
+function card(html) { return `<div class="src-card">${html}</div>`; }
+
+function srcBody(s, badgeCls, badgeLbl) {
+  return `
+    <div class="src-head">
+      <div><div class="src-name">${s.name}</div><div class="src-id">${s.id}</div></div>
+      <div class="src-badges"><span class="sbadge ${badgeCls}">${badgeLbl}</span></div>
+    </div>
+    <div class="src-tags">${mTag(s.method)}${cTag(s.cadence)}${tTag(s.tier)}${sTag(s.signal||'')}</div>
+    <div class="src-geo">📍 ${s.geo||''}</div>
+    ${s.note?`<div class="src-note">${s.note}</div>`:''}`;
+}
+
+// ── RENDER: AUTOMATED ──────────────────────────────────────────────────────
+(function() {
+  let h = '';
+  if (AUTO.daily.length) {
+    h += `<div class="cat-header"><span>Daily — Market Signal Layer</span><span>${AUTO.daily.length} sources</span></div>`;
+    AUTO.daily.forEach(s => { h += card(srcBody(s,'sb-active','Active')); });
+  }
+  if (AUTO.weekly.length) {
+    h += `<div class="cat-header"><span>Weekly — Procurement Scan</span><span>${AUTO.weekly.length} sources</span></div>`;
+    AUTO.weekly.forEach(s => { h += card(srcBody(s,'sb-active','Active')); });
+  }
+  document.getElementById('auto-grid').innerHTML = h;
+})();
+
+// ── RENDER: MANUAL ─────────────────────────────────────────────────────────
+(function() {
+  let h = '';
+  MANUAL.forEach(s => {
+    h += card(`
+      <div class="src-head">
+        <div><div class="src-name">${s.name}</div><div class="src-id">${s.id}</div></div>
+        <div class="src-badges"><span class="sbadge sb-manual">Manual</span></div>
+      </div>
+      <div class="src-tags">
+        ${mTag(s.method||'Manual')}${cTag(s.cadence)}
+        <span class="tag t-day" style="text-transform:none;letter-spacing:.02em">${s.status_note||''}</span>
+      </div>
+      <div class="src-geo">📍 ${s.geo||''}</div>
+      ${s.note?`<div class="src-note">${s.note}</div>`:''}`);
+  });
+  document.getElementById('manual-grid').innerHTML = h;
+})();
+
+// ── RENDER: PIPELINE ───────────────────────────────────────────────────────
+(function() {
+  const cats = {};
+  PIPELINE.forEach(s => { (cats[s.category] = cats[s.category]||[]).push(s); });
+  let h = '';
+  Object.entries(cats).forEach(([cat, items]) => {
+    h += `<div class="cat-header"><span>${cat}</span><span>${items.length} candidates</span></div>`;
+    items.forEach(s => {
+      const pc = s.priority==='HIGH'?'sb-high':s.priority==='MEDIUM'?'sb-medium':'sb-low';
+      h += card(`
+        <div class="src-head">
+          <div><div class="src-name">${s.rank < 10 ? '0'+s.rank : s.rank} — ${s.name}</div><div class="src-id">${s.id}</div></div>
+          <div class="src-badges"><span class="sbadge ${pc}">${s.priority}</span><span class="sbadge sb-pipe">Pipeline</span></div>
+        </div>
+        <div class="src-tags">${mTag(s.method||'')}${tTag(s.tier||1)}</div>
+        <div class="src-url">${s.url||''}</div>
+        ${s.note?`<div class="src-note">${s.note}</div>`:''}`);
+    });
+  });
+  document.getElementById('pipeline-grid').innerHTML = h;
+})();
+
+// ── RENDER: PARKED ─────────────────────────────────────────────────────────
+(function() {
+  let h = '';
+  PARKED.forEach(s => {
+    h += card(`
+      <div class="src-head">
+        <div><div class="src-name">${s.name}</div><div class="src-id">${s.id}</div></div>
+        <div class="src-badges"><span class="sbadge sb-parked">Parked</span></div>
+      </div>
+      <div class="src-tags"><span class="src-reason">${s.reason||''}</span></div>
+      ${s.note?`<div class="src-note">${s.note}</div>`:''}`);
+  });
+  document.getElementById('parked-grid').innerHTML = h;
+})();
+
+// ── RENDER: KEYWORDS ───────────────────────────────────────────────────────
+(function() {
+  const pills = (arr, cls) => arr.map(k=>`<span class="pill ${cls}">${k}</span>`).join('');
+  const K = KEYWORDS;
+  document.getElementById('panel-keywords').innerHTML = `
+    <div class="kw-grid">
+      <div>
+        <div class="kw-section">
+          <div class="kw-head"><h3>High-Priority</h3>
+            <span class="kw-count">${K.high_priority.length}</span>
+            <span class="kw-desc">Direct advisory mandate indicators</span></div>
+          <div class="pill-cloud">${pills(K.high_priority,'p-hi')}</div>
+        </div>
+        <div class="kw-section">
+          <div class="kw-head"><h3>Sector Keywords</h3>
+            <span class="kw-count">${K.sector.length}</span>
+            <span class="kw-desc">Energy &amp; water sector relevance gate</span></div>
+          <div class="pill-cloud">${pills(K.sector,'p-sec')}</div>
+        </div>
+        <div class="kw-section">
+          <div class="kw-head"><h3>Signal Keywords</h3>
+            <span class="kw-count">${K.signal.length}</span>
+            <span class="kw-desc">Financial, regulatory &amp; project milestones</span></div>
+          <div class="pill-cloud">${pills(K.signal,'p-sig')}</div>
+        </div>
+      </div>
+      <div>
+        <div class="kw-section">
+          <div class="kw-head"><h3>Trusted Sources</h3>
+            <span class="kw-count">${K.trusted.length} domains</span>
+            <span class="kw-desc">Bypass keyword filter — pass directly to geography check</span></div>
+          <div class="pill-cloud">${pills(K.trusted,'p-tru')}</div>
+        </div>
+        <div class="kw-section">
+          <div class="kw-head"><h3>SSA Countries</h3>
+            <span class="kw-count">${K.ssa_countries.length} + regional terms</span>
+            <span class="kw-desc">Geography filter</span></div>
+          <div class="pill-cloud">${pills(K.ssa_countries,'p-ctry')}</div>
+        </div>
+        <div class="kw-section" style="margin-top:20px">
+          <div class="kw-head"><h3>Exclusion Keywords</h3>
+            <span class="kw-count">${K.exclusion.length}</span>
+            <span class="kw-desc">Applied before trusted-source bypass — always dropped</span></div>
+          <div class="pill-cloud">${pills(K.exclusion,'p-exc')}</div>
+        </div>
+      </div>
+    </div>`;
+})();
+
+// ── RENDER: LIFECYCLE ──────────────────────────────────────────────────────
+(function() {
+  const phases = [
+    { n:1, name:'Policy Reform',       cls:'ph1',
+      signals:['Policy reform enacted','Regulatory framework published','Sector diagnostic released'],
+      sources:['NERC','ERB ZM','NERSA','EPRA'] },
+    { n:2, name:'National Planning',   cls:'ph2',
+      signals:['National/sector strategy adopted','Investment programme announced','MCC compact / bilateral agreement signed'],
+      sources:['WB Pipeline','MCC','CIF'] },
+    { n:3, name:'Identification',      cls:'ph3',
+      signals:['Project registered in DFI pipeline','Preparation facility awarded','Prefeasibility study commissioned','Govt project concept published'],
+      sources:['WB Pipeline','IFC Advisory','IFC Investment','AfDB','Proparco'] },
+    { n:4, name:'Feasibility',         cls:'ph4',
+      signals:['PID / project document published','ESIA / ESMP notice published','Transaction advisor appointed','Feasibility study commissioned'],
+      sources:['PIDG','UNGM','GIZ','AFD','TED','SEforALL'] },
+    { n:5, name:'Transaction',         cls:'ph5',
+      signals:['Procurement / RFP issued','Preferred bidder / developer selected','PPA / concession negotiation announced'],
+      sources:['ZESCO','NamPower','ZPPA','GHANEPS','eTenders SA','DBSA','PPDA MW','TED'] },
+    { n:6, name:'Close / Construction',cls:'ph6',
+      signals:['Financial close announced','Construction commenced'],
+      sources:['PV-Tech','Google News','Proparco','IFC Investment'] },
+    { n:7, name:'Operations',          cls:'ph7',
+      signals:['Operational milestone / tariff filing'],
+      sources:['NERSA','ERB ZM','NERC','EPRA'] },
+  ];
+  const phNum = {1:'#5A5490',2:'#6A4A94',3:'#3A7888',4:'#4A7040',5:'#C47030',6:'#A04830',7:'#5A5248'};
+
+  let grid = phases.map(p => `
+    <div class="phase-card ${p.cls}">
+      <div class="phase-hdr"><span class="phase-num" style="color:${phNum[p.n]}">${p.n}</span><span class="phase-lbl">${p.name}</span></div>
+      <div class="phase-body">${p.signals.map(s=>`<div class="sig-item ${p.cls}">${s}</div>`).join('')}</div>
+      <div class="phase-srcs">
+        <div class="phase-srcs-lbl">Sources</div>
+        <div class="phase-srcs-list">${p.sources.map(s=>`<span class="src-chip">${s}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+
+  let trows = '';
+  phases.forEach(p => {
+    p.signals.forEach((sig,i) => {
+      trows += `<tr>
+        ${i===0?`<td rowspan="${p.signals.length}" class="pc">
+          <span style="font-size:18px;font-weight:900;color:${phNum[p.n]};font-family:var(--f-body)">${p.n}</span></td>
+          <td rowspan="${p.signals.length}" class="lc">
+          <span style="font-size:11px;font-weight:700;color:${phNum[p.n]};font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.06em">${p.name}</span></td>`:''}
+        <td>${sig}</td></tr>`;
+    });
+  });
+
+  document.getElementById('panel-lifecycle').innerHTML = `
+    <p style="color:var(--c-text-body);font-family:var(--f-body);font-size:13px;margin-bottom:18px;max-width:740px;line-height:1.6">
+      20 signal types across 7 lifecycle phases. Phases 1–3 provide
+      <strong>6–18 months advance intelligence</strong>;
+      Phases 4–5 are the <strong style="color:var(--c-accent)">primary capture window</strong>.
+    </p>
+    <div class="callout">
+      <span class="callout-icon">→</span>
+      <div>
+        <div class="callout-title">Primary Opportunity Window — Phases 4 &amp; 5</div>
+        <div class="callout-body">
+          <strong>Phase 4 (Feasibility):</strong> ESIA notices, transaction advisor appointments, feasibility commissions.
+          Sources: PIDG, UNGM, GIZ, AFD, TED, SEforALL.<br>
+          <strong>Phase 5 (Transaction):</strong> RFP/EOI issuance is the direct capture event.
+          Sources: ZESCO, NamPower, ZPPA, DBSA, GHANEPS, eTenders SA, TED.
+        </div>
+      </div>
+    </div>
+    <div class="lc-grid">${grid}</div>
+    <div style="margin-top:8px">
+      <h3 style="font-family:var(--f-mono);font-size:10px;font-weight:500;color:var(--c-text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">All 20 Signal Types</h3>
+      <div style="background:var(--c-surface);border:1px solid var(--c-border);overflow:hidden">
+        <table class="ref-table">
+          <thead><tr><th style="width:50px">Phase</th><th style="width:160px">Stage</th><th>Signal Type</th></tr></thead>
+          <tbody>${trows}</tbody>
+        </table>
+      </div>
+    </div>`;
+})();
+</script>
+</body>
+</html>
