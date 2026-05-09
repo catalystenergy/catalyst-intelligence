@@ -36,7 +36,7 @@
   .layer-tag { font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; color:#9C8E84; margin-bottom:0.25rem; }
   .layer-name { font-family:'Lato',sans-serif; font-size:0.875rem; font-weight:700; color:#E8873A; line-height:1.2; }
 
-  /* ── Dual/triple lifecycle wrapper (Layer 01) ── */
+  /* ── Dual lifecycle wrapper (Layer 01) ── */
   .dual-lifecycle-wrapper { display:flex; align-items:stretch; margin-bottom:0.125rem; }
 
   .dual-label {
@@ -50,9 +50,8 @@
     letter-spacing:0.14em; text-transform:uppercase; flex:1;
     display:flex; align-items:center;
   }
-  .sector-sub-label.energy  { color:#E8873A; }
-  .sector-sub-label.wash    { color:#4A8C9C; }
-  .sector-sub-label.finance { color:#3F8654; }
+  .sector-sub-label.energy { color:#E8873A; }
+  .sector-sub-label.wash   { color:#4A8C9C; }
 
   .dual-phases-col { flex:1; display:flex; flex-direction:column; padding-left:1rem; gap:0.1875rem; }
 
@@ -72,11 +71,6 @@
   .phase-card.wash { border-top-color:#4A8C9C; }
   .phase-card.wash:hover { border-top-color:#3A7C8C; background:#F5FAFB; box-shadow:0 2px 8px rgba(74,140,156,0.08); }
   .phase-card.wash.active { border-top-color:#3A7C8C; background:#EEF7FA; box-shadow:0 2px 12px rgba(74,140,156,0.12); }
-
-  /* Finance card variant */
-  .phase-card.finance { border-top-color:#3F8654; }
-  .phase-card.finance:hover { border-top-color:#2E6B42; background:#F3F8F4; box-shadow:0 2px 8px rgba(63,134,84,0.08); }
-  .phase-card.finance.active { border-top-color:#2E6B42; background:#EAF4ED; box-shadow:0 2px 12px rgba(63,134,84,0.12); }
 
   .phase-num { font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#C8B8AC; letter-spacing:0.08em; margin-bottom:0.375rem; }
   .phase-name { font-family:'Lato',sans-serif; font-size:0.875rem; font-weight:700; color:#1A1714; line-height:1.3; margin-bottom:0.5rem; }
@@ -105,10 +99,9 @@
   .t-prep   { background:#EBF0F8; color:#4A6A9C; }
   .t-study  { background:#F2EBF8; color:#7A5A9C; }
   .t-proc   { background:#FEF0E6; color:#C47030; }
-  .t-close  { background:#FCEAE8; color:#B85040; }
+  .t-fin    { background:#FCEAE8; color:#B85040; }
   .t-ops    { background:#F4F2E8; color:#7A7848; }
   .t-wash   { background:#E8F4F7; color:#3A7C8C; }
-  .t-fin    { background:#EAF2EC; color:#2E6B42; }
 
   .sig-list { list-style:none; }
   .sig-list li {
@@ -129,7 +122,6 @@
 
   .src      { color:#E8873A; font-weight:500; }
   .src-wash { color:#3A7C8C; font-weight:500; }
-  .src-fin  { color:#3F8654; font-weight:500; }
 
   /* ── Detail panel ── */
   .detail-panel {
@@ -144,53 +136,17 @@
   .detail-phase { font-family:'Lato',sans-serif; font-size:1.125rem; font-weight:900; color:#E8873A; margin-bottom:0.375rem; letter-spacing:-0.01em; }
   .detail-desc  { font-family:'Lato',sans-serif; font-size:1rem; color:#5C5248; margin-bottom:1.25rem; line-height:1.65; max-width:80%; }
 
-  /* ── Tab bar ── */
-  .tab-bar { display:flex; gap:0; border-bottom:1px solid #E8E2DA; margin-bottom:1rem; }
-  .tab-btn {
-    font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.12em;
-    text-transform:uppercase; padding:0.5rem 1rem; cursor:pointer;
-    border:none; background:none; color:#9C8E84;
-    border-bottom:2px solid transparent; margin-bottom:-1px;
-    transition:color 0.15s, border-color 0.15s;
-  }
-  .tab-btn:hover { color:#5C5248; }
-  .tab-btn.active { color:#1A1714; }
-  .tab-btn.active.tb-energy  { border-bottom-color:#E8873A; color:#E8873A; }
-  .tab-btn.active.tb-wash    { border-bottom-color:#4A8C9C; color:#4A8C9C; }
-  .tab-btn.active.tb-finance { border-bottom-color:#3F8654; color:#3F8654; }
-  .tab-btn.active.tb-notes   { border-bottom-color:#9C8E84; color:#5C5248; }
-  .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
+  .detail-cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5rem; }
 
   .detail-col-label { font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; color:#9C8E84; margin-bottom:0.625rem; }
-  .detail-col-label.wash-lbl    { color:#4A8C9C; }
-  .detail-col-label.finance-lbl { color:#3F8654; }
+  .detail-col-label.wash-lbl { color:#4A8C9C; }
 
   .detail-list { list-style:none; }
   .detail-list li { font-family:'JetBrains Mono',monospace; font-size:0.875rem; color:#5C5248; padding:0.375rem 0; border-bottom:1px solid #F0EBE6; line-height:1.5; }
   .detail-list li:last-child { border-bottom:none; }
   .detail-list .s  { color:#E8873A; font-weight:500; }
   .detail-list .sw { color:#3A7C8C; font-weight:500; }
-  .detail-list .sf { color:#3F8654; font-weight:500; }
   .detail-list .n  { color:#9C8E84; font-style:italic; }
-
-  /* Finance tab sub-separators */
-  .fin-sep {
-    font-family:'JetBrains Mono',monospace; font-size:0.6875rem; color:#C8B8AC;
-    letter-spacing:0.12em; padding:0.5rem 0 0.25rem; display:block;
-    border-bottom:1px solid #F0EBE6; margin-bottom:0.25rem;
-  }
-
-  /* ── Opportunity cards ── */
-  .opp-card {
-    background:#F3F8F4; border:1px solid #C8DFD0; border-left:2px solid #3F8654;
-    border-radius:2px; padding:0.375rem 0.5rem; margin:0.25rem 0;
-    font-family:'JetBrains Mono',monospace; font-size:0.6875rem; color:#5C5248;
-    line-height:1.6;
-  }
-  .opp-card .opp-name { color:#2E6B42; font-weight:500; display:block; margin-bottom:0.1875rem; }
-  .opp-field { color:#9C8E84; }
-  .opp-val   { color:#5C5248; }
 
   /* ── Footer ── */
   .footer { margin-top:1.5rem; display:flex; gap:1.25rem; flex-wrap:wrap; padding-top:1rem; border-top:1px solid #E8E2DA; align-items:center; }
@@ -203,23 +159,21 @@
 <body>
 
 <div class="header">
-  <div class="header-label">Catalyst Energy Africa · Internal Strategy Artifact · v0.3</div>
+  <div class="header-label">Catalyst Energy Africa · Internal Strategy Artifact · v0.2</div>
   <div class="header-title">Infrastructure Project Lifecycle<br><span>Signal Intelligence Map</span></div>
-  <div class="header-sub">Layer 01: Triple-Sector Lifecycle (Energy · WASH · Finance) &nbsp;·&nbsp; Layer 02: Augmented Signal Sources &nbsp;·&nbsp; Click any phase to expand</div>
+  <div class="header-sub">Layer 01: Dual-Sector Lifecycle (Energy · WASH) &nbsp;·&nbsp; Layer 02: Augmented Signal Sources &nbsp;·&nbsp; Click any phase to expand</div>
 </div>
 
-<!-- Layer 01: Triple lifecycle rows (built by JS) -->
+<!-- Layer 01: Dual lifecycle rows (built by JS) -->
 <div class="dual-lifecycle-wrapper">
   <div class="dual-label">
     <div class="dual-label-tag">Layer 01</div>
     <div class="sector-sub-label energy">Energy</div>
     <div class="sector-sub-label wash">WASH</div>
-    <div class="sector-sub-label finance">Finance</div>
   </div>
   <div class="dual-phases-col">
     <div class="phases-container" id="row-energy"></div>
     <div class="phases-container" id="row-wash"></div>
-    <div class="phases-container" id="row-finance"></div>
   </div>
 </div>
 
@@ -246,58 +200,42 @@
 <div class="detail-panel" id="dp">
   <div class="detail-phase" id="dp-name"></div>
   <div class="detail-desc" id="dp-desc"></div>
-
-  <div class="tab-bar">
-    <button class="tab-btn tb-energy active"  onclick="switchTab('energy',this)">Energy</button>
-    <button class="tab-btn tb-wash"            onclick="switchTab('wash',this)">WASH</button>
-    <button class="tab-btn tb-finance"         onclick="switchTab('finance',this)">Finance</button>
-    <button class="tab-btn tb-notes"           onclick="switchTab('notes',this)">Notes</button>
-  </div>
-
-  <div class="tab-panel active" id="tab-energy">
-    <div class="detail-col-label">Energy Signals</div>
-    <ul class="detail-list" id="dp-esrc"></ul>
-  </div>
-  <div class="tab-panel" id="tab-wash">
-    <div class="detail-col-label wash-lbl">WASH Signals</div>
-    <ul class="detail-list" id="dp-wsrc"></ul>
-  </div>
-  <div class="tab-panel" id="tab-finance">
-    <div class="detail-col-label finance-lbl">Finance Signals &amp; Opportunities</div>
-    <div id="dp-fsrc"></div>
-  </div>
-  <div class="tab-panel" id="tab-notes">
-    <div class="detail-col-label">Intelligence Notes</div>
-    <ul class="detail-list" id="dp-notes"></ul>
+  <div class="detail-cols">
+    <div>
+      <div class="detail-col-label">Energy Signals</div>
+      <ul class="detail-list" id="dp-esrc"></ul>
+    </div>
+    <div>
+      <div class="detail-col-label wash-lbl">WASH Signals</div>
+      <ul class="detail-list" id="dp-wsrc"></ul>
+    </div>
+    <div>
+      <div class="detail-col-label">Intelligence Notes</div>
+      <ul class="detail-list" id="dp-notes"></ul>
+    </div>
   </div>
 </div>
 
 <div class="footer">
   <div class="leg"><div class="leg-dot" style="background:#E8873A"></div>Layer 01A — Energy Lifecycle</div>
   <div class="leg"><div class="leg-dot" style="background:#4A8C9C"></div>Layer 01B — WASH Lifecycle</div>
-  <div class="leg"><div class="leg-dot" style="background:#3F8654"></div>Layer 01C — Finance Lifecycle</div>
   <div class="leg"><div class="leg-dot" style="background:#7A9AAA"></div>Layer 02 — Signal Source</div>
   <div class="leg"><span class="leg-tag t-wash">WASH</span>WASH-specific signal source</div>
-  <div class="leg"><span class="leg-tag t-fin">Finance</span>Finance-specific signal source</div>
-  <div class="leg"><span style="font-family:'JetBrains Mono',monospace;font-size:0.6875rem;background:#F3F8F4;border:1px solid #C8DFD0;border-left:2px solid #3F8654;padding:0.0625rem 0.3125rem;color:#2E6B42;">opp</span>Funding opportunity (ticket · eligibility · window)</div>
   <div class="leg">· Click any card to expand · Phase-ambiguity flagged in notes</div>
 </div>
-<div class="version">v0.3 · Catalyst Energy Africa · Finance capital layer added</div>
+<div class="version">v0.2 · Catalyst Energy Africa · WASH coverage layer added</div>
 
 <script>
 // ── Data ─────────────────────────────────────────────────────────────────────
 // Each phase object:
 //   name        — display name for detail panel header
-//   desc        — detail panel description
+//   desc        — detail panel description (energy-anchored, general enough for both)
 //   energyDesc  — short description for 01A card
 //   washDesc    — short description for 01B card
-//   financeDesc — short description for 01C card
-//   energySrc   — [{s, c, d}]
-//   washSrc     — [{s, c, d}] or null
-//   financeSrc  — [{type, s, c, d, ticket, eligibility, window, leadtime, cofin}]
-//   notes       — [{n}]
-//   washNote    — string or null
-//   financeNote — string
+//   energySrc   — [{s, c, d}]  s=source, c=card text, d=detail text
+//   washSrc     — [{s, c, d}] or null (sector-agnostic phases 04, 06)
+//   notes       — [{n}] existing intelligence notes
+//   washNote    — string, WASH-specific note appended in detail panel
 
 const D = [
   // ── Phase 01 ──────────────────────────────────────────────────────────────
@@ -306,7 +244,6 @@ const D = [
     desc: "Government commits to sector direction — IPP frameworks enacted, utility restructuring mandated, tariff reform initiated. No discrete projects yet, but the pipeline is being created. Earliest detectable signal horizon. Phase duration: 1–5+ years.",
     energyDesc: "Govt commits to energy sector direction. IPP frameworks enacted, integrated resource plans commissioned, utility restructuring mandated. No projects yet — pipeline being created.",
     washDesc: "Govt commits to water sector direction. Water utility restructuring, tariff reform, concession frameworks. WASH Acts gazetted. No projects yet — pipeline being created.",
-    financeDesc: "Bilateral sector reform grants active. FCDO, GIZ, USAID fund policy TA and regulatory capacity building. No project capital — reform advisory mandates only.",
     energySrc: [
       {s:"IMF",            c:"Article IV consultations",         d:"Article IV consultation reports — flag sector reform conditionality language"},
       {s:"World Bank",     c:"Sector diagnostics & CASs",        d:"Sector diagnostics, Country Assistance Strategies (CASs)"},
@@ -322,13 +259,6 @@ const D = [
       {s:"UN-Water",           c:"SDG 6 country progress reports",                       d:"SDG 6 country progress reports — flag gaps driving national sector reform"},
       {s:"Water Acts & regulators",c:"Water sector gazette notices",                     d:"Water Act gazette notices — regulatory empowerment signals, equivalent to IPP framework enactment"},
     ],
-    financeSrc: [
-      {type:"signal",     s:"FCDO / GIZ / USAID",   c:"Bilateral sector TA programme documents", d:"Bilateral sector reform and regulatory capacity TA programme documents — flag downstream advisory mandates", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"AfDB CSPs",             c:"Country strategy papers",                 d:"Country Strategy Papers — capital envelope allocation signals preceding project pipeline by 2–4 years", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"World Bank CPFs",       c:"Country Partnership Frameworks",          d:"Country Partnership Frameworks — sector priority and lending envelope signals", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Bilateral TA portals",  c:"Sector TA tender notices",                d:"Bilateral sector TA tender notices — advisory mandate signals at reform phase", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"USAID Power Africa / FCDO", c:"Occasional TA co-funding for private developers in policy engagement", d:"Opportunistic TA co-funding for private developers engaging in policy reform processes — not programmatic", ticket:"Non-financial TA", eligibility:"US/UK-registered or partnered private firm", window:"Opportunistic — no fixed cycle", leadtime:"Variable", cofin:"null"},
-    ],
     notes: [
       {n:"Key indicator: sector regulator created or empowered — precedes pipeline by 2–4 years."},
       {n:"MOU between govt and bilateral often precedes a prep grant by 12–18 months."},
@@ -337,7 +267,6 @@ const D = [
       {n:"Wiki tag: POLICY | REFORM | [COUNTRY] | [SECTOR]"},
     ],
     washNote: "AMCOW policy consultations precede national water sector reform by 1–2 years. Water Act gazette notices signal regulatory empowerment — equivalent lead indicator to IPP framework enactment.",
-    financeNote: "Reform TA grants (FCDO, GIZ) are the only capital active at this phase. They fund the advisory work that creates the pipeline — not the pipeline itself. Monitor bilateral programme launches as lead indicators of downstream mandates.",
   },
 
   // ── Phase 02 ──────────────────────────────────────────────────────────────
@@ -346,7 +275,6 @@ const D = [
     desc: "Projects conceptualised and budgeted at programme level. Integrated Resource Plans, WASH masterplans, rural electrification rollouts. The specific project doesn't exist yet but the envelope it will sit in is being defined here.",
     energyDesc: "Integrated resource plans, electrification masterplans, REIPPP-class programmes conceptualised and budgeted. The specific project doesn't exist yet but the programme envelope is being defined.",
     washDesc: "National WASH masterplans, water utility investment plans, rural water supply rollouts. IWP/IWPP programmes conceptualised and budgeted.",
-    financeDesc: "Programme-level planning finance. ESMAP, MCC compacts, AfDB country programme envelopes being allocated. DFI country strategy = capital earmarked. Entry: sector study mandates.",
     energySrc: [
       {s:"National Dev Plans",    c:"NDPs and Vision documents",              d:"NDPs and Vision documents — capital budget line appearances are high-value signals"},
       {s:"MCC",                   c:"Compacts & threshold programs",          d:"Compact and threshold program documents — infrastructure-heavy by design"},
@@ -364,14 +292,6 @@ const D = [
       {s:"Water utility masterplans",c:"NamWater, NWSC, GWCL, DAWASCO, NWA", d:"NamWater, NWSC Uganda, GWCL, DAWASCO, NWA Malawi — published investment plans"},
       {s:"IRC WASH",              c:"Sector financing & programme analyses",  d:"Sector financing and programme analyses — country-level WASH investment landscape"},
     ],
-    financeSrc: [
-      {type:"signal",     s:"World Bank ESMAP",          c:"Country notes & energy gap analysis",          d:"Energy sector management assistance — scoping notes and investment gap analysis. Not directly accessible to private developers", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"MCC",                       c:"Compact & threshold programme documents",      d:"MCC compact documents — private sector engagement via MCC-funded transaction advisors, not direct grant target", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"IRENA",                     c:"Country finance roadmaps",                     d:"Country renewable energy finance roadmaps — technology and investment targets by year", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"SADC / ECOWAS investment frameworks", c:"Regional investment frameworks",    d:"Regional investment frameworks — programme-level capital allocation signals", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"DFI procurement portals",   c:"Sector study TORs",                           d:"Sector study TOR postings — advisory mandate signals at planning phase", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"SADC Infrastructure Fund",  c:"Programme-level co-financing for SPVs with govt sponsor", d:"Programme-level co-financing instrument for regional infrastructure — requires government sponsor", ticket:"USD 10m+", eligibility:"SPV with government sponsor, SADC nexus", window:"Rolling, project-by-project", leadtime:"12–24 months", cofin:"30% minimum"},
-    ],
     notes: [
       {n:"Capital budget line appearances = highest-value early signal at this phase."},
       {n:"Regional pool plans often precede national project identification by 3–5 years."},
@@ -380,7 +300,6 @@ const D = [
       {n:"Wiki tag: PLANNING | PROGRAMME | [COUNTRY] | [SECTOR] | [TECHNOLOGY]"},
     ],
     washNote: "AWF and World Bank Water GP country notes are the WASH equivalents of ESMAP. Water utility masterplan publication = highest-value early signal in WASH pipeline formation.",
-    financeNote: "DFI country strategy papers signal capital allocation before any project exists. ESMAP and AWF country notes define the investment envelope that projects will draw from — highest-value planning-phase signal.",
   },
 
   // ── Phase 03 ──────────────────────────────────────────────────────────────
@@ -389,7 +308,6 @@ const D = [
     desc: "A specific project is scoped. Feasibility TORs are drafted. DFI preparation grants appear. This is the 12–24 month lead-time window before RFP — the highest-value detection point for early-mover advantage in deal origination.",
     energyDesc: "Specific energy project scoped. REIPPP-class tender TORs drafted. NEPAD-IPPF prep grants appear. 12–24 month lead on IPP RFP.",
     washDesc: "Specific water project scoped. WASH feasibility TORs drafted. AWF prep grants appear. 12–24 month lead on PPP/concession RFP.",
-    financeDesc: "Prep grants confirmed. NEPAD-IPPF, AWF, ACP-EU Water Facility, PIDG InfraCo active. Grant award = project is real. Highest-value advisory entry point — TA mandates attached to prep grants.",
     energySrc: [
       {s:"World Bank / IFC",    c:"Project pipeline database",             d:"Project pipeline database — projects at concept and preparation stages"},
       {s:"AfDB",                c:"Project pipeline portal",               d:"Project pipeline portal — discrete project entries at early preparation"},
@@ -405,18 +323,6 @@ const D = [
       {s:"WSUP",                c:"Urban WASH programme calls",               d:"Water & Sanitation for the Urban Poor programme calls — urban water concession signals"},
       {s:"PIDG",                c:"Confirmed WASH pipeline coverage",          d:"Confirmed WASH signal: Sabaki Water Carrier PPP, Kenya 2025 — PIDG covers water PPP pipeline"},
     ],
-    financeSrc: [
-      {type:"signal",     s:"NEPAD-IPPF",        c:"Prep facility award notices",                 d:"Infrastructure Preparation Facility award notices — grant = project is real. Also directly accessible to private developers", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"AfDB AWF",           c:"African Water Facility prep grant awards",    d:"AWF prep grant awards — water project confirmed. Relevant for IWP/IWPP private developers", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"PIDG InfraCo Africa",c:"Pipeline disclosures & prep grant notices",  d:"InfraCo Africa pipeline disclosures — early-stage project development capital. InfraCo takes equity stake", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"EU-AFIF",            c:"African Investment Facility grant announcements", d:"Blended finance grants for project preparation — requires EU DFI co-financier", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"SEFA (AfDB)",        c:"Sustainable Energy Fund prep grant notices", d:"SEFA prep grant awards — SADC/EAC renewable energy projects prioritised", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"NEPAD-IPPF",         c:"Prep grants for regional infrastructure projects", d:"Prep grants for African cross-border/regional infrastructure — private developer or public sponsor eligible", ticket:"USD 200k–2m", eligibility:"Project sponsor (private or public) with regional nexus", window:"Rolling", leadtime:"6–12 months", cofin:"25% minimum"},
-      {type:"opportunity",s:"AfDB AWF",           c:"Water sector prep grants — IWP/IWPP developers", d:"Water sector prep grants — relevant for private IWP/IWPP developers with utility or govt offtake letter", ticket:"USD 100k–1.5m", eligibility:"Private developer with utility/govt offtake letter", window:"Rolling", leadtime:"9–15 months", cofin:"20% minimum"},
-      {type:"opportunity",s:"PIDG InfraCo Africa",c:"Early-stage project development equity",    d:"Early-stage development capital — InfraCo co-develops project and takes equity stake, not a grant", ticket:"USD 1m–10m development capital", eligibility:"Private developer, InfraCo takes equity stake", window:"Rolling", leadtime:"6–18 months", cofin:"null"},
-      {type:"opportunity",s:"EU-AFIF",            c:"Project prep grants with EU DFI co-financier", d:"African Investment Facility blended finance grants for project preparation — requires EU DFI co-financier (EIB, DEG, Proparco, FMO)", ticket:"EUR 500k–5m", eligibility:"Private developer with EU DFI co-financier confirmed", window:"Annual call, typically Q2", leadtime:"9–18 months", cofin:"25% minimum"},
-      {type:"opportunity",s:"SEFA (AfDB)",        c:"Prep grants for SADC/EAC renewable energy developers", d:"Sustainable Energy Fund for Africa — prep grants for private renewable energy developers, SADC/EAC projects prioritised", ticket:"USD 300k–3m", eligibility:"Private renewable energy developer, SADC/EAC project", window:"Rolling", leadtime:"6–12 months", cofin:"20% minimum"},
-    ],
     notes: [
       {n:"HIGHEST LEVERAGE PHASE for early detection and relationship building."},
       {n:"Consultant TOR postings precede PID publication by 3–9 months — watch these."},
@@ -425,7 +331,6 @@ const D = [
       {n:"Wiki tag: IDENTIFICATION | PREFEAS | [DFI] | [COUNTRY] | [PROJECT NAME]"},
     ],
     washNote: "AWF prep grant award = water project is real. Treat identically to NEPAD-IPPF energy prep grants. PIDG has confirmed WASH coverage (Sabaki Water Carrier PPP, Kenya).",
-    financeNote: "Prep grant award is the single most reliable early-entry signal across both sectors and both POVs. TA mandates attach directly to prep grants. For project developers: SEFA and NEPAD-IPPF are the most accessible instruments in SADC/EAC — rolling windows, 6–12 month leadtimes.",
   },
 
   // ── Phase 04 ──────────────────────────────────────────────────────────────
@@ -434,7 +339,6 @@ const D = [
     desc: "Detailed technical, financial, and environmental studies underway. Technology selection, financing structure design, ESMP baseline work. Typically 18–36 months. Multiple consultants active simultaneously — competitive but not yet crowded.",
     energyDesc: "Detailed technical, financial, and environmental studies. Technology selection, financing structure design. ESMP baselines. Long phase — multiple consultants active.",
     washDesc: "Detailed water resource, technical, and financial studies. Technology selection (treatment, conveyance, desalination). ESMP baselines. Long phase — multiple consultants active.",
-    financeDesc: "Concessional DFI structuring underway. AfDB, IFC, EIB, DBSA mandates in discussion. First MLA signals. Blended finance architecture being designed — lender's engineer and financial modelling mandates active.",
     energySrc: [
       {s:"ESIA / ESMP notices",     c:"Environmental scoping & impact notices",   d:"Environmental scoping and impact assessment public notices — country env. authorities"},
       {s:"World Bank PIDs",         c:"Project Information Documents",            d:"Project Information Documents — published at appraisal stage"},
@@ -447,17 +351,6 @@ const D = [
       {s:"Catchment / water resource authority",c:"ESIA filings for bulk water & dam projects",d:"Sector-specific ESIA filings — add marginal early signal for bulk water and dam projects"},
       {s:"National Water Resource Authority",  c:"Scoping notices",                           d:"Scoping notices — marginal early signal for bulk water projects beyond the sector-agnostic ESIA signals"},
     ],
-    financeSrc: [
-      {type:"signal",     s:"AfDB / IFC / EIB / DBSA",  c:"Appraisal documents & MLA announcements",  d:"DFI appraisal documents and mandated lead arranger announcements — financing structure agreed signal", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"World Bank PIDs",           c:"Project Information Documents",             d:"PIDs published at appraisal stage — signal arrives late in phase 04", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"MIGA / GuarantCo / InfraCredit", c:"Guarantee facility notices",          d:"Guarantee facility notices — blended finance structure under design, earlier than MLA signal", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Country procurement journals", c:"Financial advisory TORs",              d:"Financial advisory TOR postings — transaction structuring mandates", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"IFC InfraVentures",         c:"Project development facility — IFC co-develops from feasibility", d:"IFC's project development facility — IFC co-develops project and takes equity stake from feasibility stage", ticket:"USD 1m–10m", eligibility:"Private developer, IFC co-develops and takes equity stake", window:"Rolling", leadtime:"6–18 months", cofin:"null"},
-      {type:"opportunity",s:"DBSA Project Preparation Fund", c:"Recoverable prep grants — SADC nexus required", d:"DBSA project preparation fund — recoverable grant repaid at financial close. Southern Africa / SADC nexus required", ticket:"USD 500k–5m (recoverable)", eligibility:"Private developer or SPV with SADC nexus", window:"Rolling", leadtime:"6–12 months", cofin:"15% minimum"},
-      {type:"opportunity",s:"SREP (CIF)",                c:"Concessional debt for renewable IPPs — Tanzania, Zambia, Zimbabwe priority", d:"Scaling Renewable Energy Programme — concessional debt/equity via AfDB/IFC in eligible SADC/EAC countries", ticket:"USD 5m–50m concessional debt", eligibility:"Private developer in SREP-eligible country (TZ, ZM, ZW priority)", window:"Country programme cycle — 18–36 months", leadtime:"18–36 months", cofin:"30% equity minimum"},
-      {type:"opportunity",s:"GCF (Green Climate Fund)",  c:"Large-scale concessional finance via accredited DFI", d:"Concessional debt/equity accessed via accredited entity (AfDB, IFC, DBSA) — not directly accessible to private developers", ticket:"USD 10m–250m", eligibility:"Private developer sponsored by GCF-accredited entity", window:"Rolling board cycles (4x/year)", leadtime:"18–36 months via intermediary", cofin:"25% minimum"},
-      {type:"opportunity",s:"CTF (Climate Investment Funds)", c:"Concessional debt/equity via DFI intermediaries", d:"Climate Technology Fund — concessional instruments accessed through AfDB/IFC/WB intermediary. Check CTF country plan status", ticket:"USD 5m–50m", eligibility:"Private developer, accessed through AfDB/IFC/WB intermediary", window:"Country programme — check CTF country plan", leadtime:"12–24 months through intermediary", cofin:"20–30%"},
-    ],
     notes: [
       {n:"ESMP scoping notice is often the first public signal a specific project exists."},
       {n:"PIDs are published after appraisal — signal arrives late in this phase."},
@@ -466,7 +359,6 @@ const D = [
       {n:"Wiki tag: FEASIBILITY | STRUCTURING | [PROJECT] | [DFI] | [COUNTRY]"},
     ],
     washNote: "Overlap is near-complete — ESIA and PID signals are sector-agnostic. Water resource authority filings add marginal early signal for bulk water and dam projects.",
-    financeNote: "First MLA announcements signal financing structure agreed — late phase 04. Guarantee facility notices (MIGA, GuarantCo) appear earlier and indicate blended structure under design. IFC InfraVentures and DBSA PPF are the most accessible phase 04 instruments for private developers.",
   },
 
   // ── Phase 05 ──────────────────────────────────────────────────────────────
@@ -475,7 +367,6 @@ const D = [
     desc: "RFP issued. Bids prepared and submitted. Preferred bidder selected. Most visible phase — and most crowded. Signal detection here provides no early-mover advantage. Useful only for competitive intelligence and peer tracking.",
     energyDesc: "RFP issued. Bids prepared. Preferred bidder selected. Most visible phase. Most crowded.",
     washDesc: "Water PPP/concession RFP issued. Bids prepared. Preferred bidder selected. Most visible phase. Most crowded.",
-    financeDesc: "Commercial finance enters. DFI + commercial bank consortium forming. Guarantee instruments (MIGA, GuarantCo, InfraCredit) being structured. Procurement is funded — bid support and transaction advisory mandates.",
     energySrc: [
       {s:"PPEA / PPA",      c:"National procurement authority portals",   d:"National procurement authority portals — country by country, varies significantly"},
       {s:"UNDB / dgMarket", c:"DFI-funded contract notices",              d:"UN Development Business and DG Market — DFI-funded contract notices"},
@@ -489,15 +380,6 @@ const D = [
       {s:"Global Water Intelligence",        c:"Preferred bidder & award notices",       d:"Preferred bidder and project award notices — most comprehensive water sector deal tracking"},
       {s:"Water PPP programme offices",      c:"Concession programme bulletins",         d:"Water PPP/concession programme office bulletins — where published, highly variable by country"},
     ],
-    financeSrc: [
-      {type:"signal",     s:"MIGA",                      c:"Political risk insurance notices",         d:"MIGA political risk insurance notices — signal project financing structure being finalised", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"GuarantCo / InfraCredit",   c:"Guarantee commitment announcements",       d:"Guarantee commitment announcements — local currency financing component confirmed", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"DFI board pipeline",        c:"Pre-approval pipeline disclosures",        d:"DFI pre-approval pipeline disclosures — board approval imminent signal", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Blended finance bulletins", c:"SEFA, SREP, CTF programme updates",        d:"Blended finance facility bulletins — active instruments being deployed at transaction phase", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"GuarantCo",                 c:"Local currency guarantee instruments for SPV bond issuances", d:"Local currency guarantee instruments for bond issuances and bank lending — SADC/EAC SPVs with local currency financing", ticket:"USD 5m–75m guarantee", eligibility:"SPV in SADC/EAC with local currency financing component", window:"Rolling", leadtime:"6–12 months", cofin:"null"},
-      {type:"opportunity",s:"MIGA (World Bank Group)",   c:"Political risk insurance for private investors", d:"Political risk insurance for private investors and lenders — covers expropriation, breach of contract, transfer restriction, war", ticket:"Up to USD 220m per project", eligibility:"Private investor/SPV in eligible MIGA host country", window:"Rolling", leadtime:"6–12 months", cofin:"null"},
-      {type:"opportunity",s:"GET FiT",                   c:"Results-based finance premium for operational IPPs", d:"Results-based finance premium payments for licensed IPPs — tied to PPA and financial close, check active GET FiT countries", ticket:"USD 0.01–0.03/kWh premium", eligibility:"Licensed IPP, financial close achieved, active GET FiT country", window:"Programme-dependent", leadtime:"Tied to PPA + FC timeline", cofin:"null"},
-    ],
     notes: [
       {n:"Signals here = crowded market. No competitive advantage from detection alone."},
       {n:"Value: competitive intelligence, peer firm tracking, market sizing."},
@@ -506,7 +388,6 @@ const D = [
       {n:"Wiki tag: PROCUREMENT | TENDER | [PROJECT] | [COUNTRY] | [STATUS]"},
     ],
     washNote: "No water equivalent of IPP programme offices exists at scale in SSA. Water utility portals (NamWater, NWSC) are the closest equivalent — fragmented and inconsistently published.",
-    financeNote: "Blended finance instruments (SEFA, SREP, CTF) are most visible here but largely committed earlier. GuarantCo and MIGA are the primary accessible instruments for SPVs at this phase. GET FiT is results-based — no upfront grant, premium paid post-generation.",
   },
 
   // ── Phase 06 ──────────────────────────────────────────────────────────────
@@ -515,7 +396,6 @@ const D = [
     desc: "Debt and equity assembled. EPC contracted and mobilised. Limited advisory entry at this stage unless positioned as lender's engineer or owner's engineer from the feasibility phase. BD value of signals is minimal.",
     energyDesc: "Debt and equity assembled. EPC contracted. Limited advisory entry unless lender's/owner's engineer.",
     washDesc: "Debt and equity assembled. EPC contracted. Limited advisory entry unless lender's/owner's engineer.",
-    financeDesc: "Financial close. Debt/equity mix locked. DFI board approval published. Limited new advisory entry — lender's/owner's engineer only.",
     energySrc: [
       {s:"DFI board notices",      c:"Board approval & signing notices",          d:"Board approval and signing notices — AfDB, IFC, DEG, Proparco, FMO, OPIC/DFC"},
       {s:"Sponsor press releases", c:"Financial close announcements",             d:"Financial close announcements — often first public signal of close"},
@@ -524,14 +404,6 @@ const D = [
       {s:"Arranger announcements", c:"Standard Bank, RMB, ABSA, DBSA, NedBank",  d:"Standard Bank, RMB, ABSA, DBSA, NedBank — tombstone releases"},
     ],
     washSrc: null,
-    financeSrc: [
-      {type:"signal",     s:"DFI board approval notices",  c:"AfDB, IFC, DEG, Proparco, FMO, DFC approvals", d:"Board approval and signing notices — most reliable financial close signal", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Sponsor press releases",      c:"Financial close announcements",                 d:"Financial close announcements — often first public signal of close", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"IJGlobal / PFI",              c:"Deal tombstones",                               d:"Infrastructure Journal and PFI — definitive post-close deal record. Covers water PPP equally", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Arranger announcements",      c:"Standard Bank, RMB, ABSA, DBSA, NedBank",      d:"Commercial bank tombstone releases — confirm debt structure and arranger identities", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"Green Bond Certification (ICMA GBP)", c:"Climate-labelled asset certification enabling cheaper refinancing debt", d:"Green bond framework certification for climate-labelled project assets — enables cheaper debt refinancing post-FC. Not a grant", ticket:"Non-financial — enables cheaper refinancing", eligibility:"SPV with climate-labelled assets meeting ICMA Green Bond Principles", window:"Project-driven, no fixed cycle", leadtime:"3–9 months for framework certification", cofin:"null"},
-      {type:"opportunity",s:"Carbon Credit Pre-Registration (Gold Standard / Verra VCS)", c:"Register emissions reduction methodology before COD to accelerate first issuance", d:"Pre-register project methodology before construction completion — accelerates post-COD issuance timeline significantly", ticket:"USD 2–15/tonne CO2 (volume-dependent, post-COD)", eligibility:"Projects with measurable emissions reduction — renewable energy, efficient water treatment", window:"Rolling", leadtime:"12–24 months to first issuance post-registration", cofin:"null"},
-    ],
     notes: [
       {n:"Signals here are post-decision. BD entry value is minimal."},
       {n:"Use for: pipeline intelligence, competitor mapping, market benchmarking."},
@@ -540,7 +412,6 @@ const D = [
       {n:"Wiki tag: FINANCIAL CLOSE | CONSTRUCTION | [PROJECT] | [SPONSORS] | [COUNTRY]"},
     ],
     washNote: "No sector distinction. IJGlobal tombstone database covers water PPP deals equally.",
-    financeNote: "DFI board approval notices are the most reliable close signal for advisory tracking. For project developers: green bond certification and carbon credit pre-registration are the only productive finance actions at this phase — both lay groundwork for post-COD revenue.",
   },
 
   // ── Phase 07 ──────────────────────────────────────────────────────────────
@@ -549,7 +420,6 @@ const D = [
     desc: "Project operational. Tariff reviews, performance benchmarking, refinancing events, expansion capex planning. Underserved entry point in the Sub-Saharan African market — most advisory peers ignore this phase entirely.",
     energyDesc: "Tariff reviews, benchmarking, refinancing, expansion planning. Underserved entry point.",
     washDesc: "Tariff reviews, benchmarking, water utility expansion planning. Underserved entry point.",
-    financeDesc: "Refinancing, green bonds, post-COD performance advisory. Blended finance recycling. Underserved — almost no advisory firms track post-COD finance signals in SSA.",
     energySrc: [
       {s:"ZERA / NERSA / EWRC",  c:"Tariff review filings & determinations",    d:"Zimbabwe, South Africa, Eswatini regulators — tariff review filings and determinations"},
       {s:"ERA / PURC / ERC",     c:"Uganda, Ghana, Kenya regulatory notices",    d:"Uganda, Ghana, Kenya regulatory review notices and annual performance reports"},
@@ -565,15 +435,6 @@ const D = [
       {s:"IBNET (World Bank)",     c:"Water utility benchmarking signals",        d:"Water utility benchmarking and performance signals — global database, SSA coverage growing"},
       {s:"EWURA (Tanzania)",       c:"Dual energy+water regulator",               d:"Regulates both energy and water utilities — one source, two coverage lanes. Uniquely efficient for dual-sector tracking"},
     ],
-    financeSrc: [
-      {type:"signal",     s:"DFI green bond issuances",    c:"AfDB / IFC refinancing announcements",        d:"AfDB and IFC green bond refinancing of operational project debt — signal of post-COD refinancing market activity", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"IBNET / utility benchmarking",c:"Performance-linked refinancing signals",      d:"Utility benchmarking signals — strong operational performance triggers refinancing eligibility", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Regulatory tariff reviews",   c:"Tariff determination filings",               d:"Tariff review filings — leading indicator of refinancing events and expansion capex planning", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"signal",     s:"Carbon registries",           c:"Gold Standard / Verra — credit issuance data",d:"Carbon credit issuance records — flag operational projects with active additional revenue streams", ticket:"—", eligibility:"—", window:"—", leadtime:"—", cofin:"—"},
-      {type:"opportunity",s:"IFC / AfDB Post-COD TA Facilities", c:"Operational performance improvement grants for SPVs with existing DFI exposure", d:"Operational performance improvement grants — requires existing DFI equity or debt relationship with the SPV", ticket:"USD 100k–500k", eligibility:"Operational SPV with existing AfDB or IFC equity/debt exposure", window:"Tied to existing DFI relationship — not open-market", leadtime:"3–9 months", cofin:"null"},
-      {type:"opportunity",s:"Carbon Credit Issuance (Gold Standard / Verra VCS)", c:"Ongoing revenue stream for operational renewable and water treatment assets", d:"Annual verification cycle generates carbon credits as additional revenue — requires pre-registration (see Ph 06)", ticket:"USD 2–15/tonne CO2, volume-dependent", eligibility:"Registered project with verified emissions reductions", window:"Annual verification cycle", leadtime:"Ongoing post-registration", cofin:"null"},
-      {type:"opportunity",s:"DFI Green Bond Refinancing",  c:"AfDB / IFC refinancing of operational project debt at concessional rates", d:"Operational project debt refinancing via AfDB/IFC green bond programmes — relationship-driven, requires 2+ years COD track record", ticket:"USD 20m+", eligibility:"Operational SPV, 2+ years post-COD, strong performance record", window:"Opportunistic, relationship-driven", leadtime:"12–24 months", cofin:"null"},
-    ],
     notes: [
       {n:"Underserved phase — low competition from peer advisory firms."},
       {n:"Tariff review filings = asset is operational and exposed to regulatory risk."},
@@ -582,7 +443,6 @@ const D = [
       {n:"Wiki tag: OPERATIONS | ASSET MGMT | [PROJECT] | [OPERATOR] | [COUNTRY]"},
     ],
     washNote: "EWURA (Tanzania) is uniquely valuable — it regulates both energy and water utilities under one body. One source, two coverage lanes. Water sector regulators are entirely absent from v0.1.",
-    financeNote: "Post-COD finance signals are almost entirely unmonitored by advisory peers in SSA. Tariff review filings are the leading indicator of refinancing events. Carbon credit issuances flag operational projects with additional revenue streams — a procurement signal for performance advisory.",
   },
 ];
 
@@ -593,7 +453,7 @@ const sigTags = [
   {label:'Prep Grant',  cls:'t-prep'},
   {label:'Study',       cls:'t-study'},
   {label:'Procurement', cls:'t-proc'},
-  {label:'Close',       cls:'t-close'},
+  {label:'Finance',     cls:'t-fin'},
   {label:'Operations',  cls:'t-ops'},
 ];
 
@@ -613,7 +473,6 @@ const phaseNames = [
 function buildLifecycleRows() {
   const eRow = document.getElementById('row-energy');
   const wRow = document.getElementById('row-wash');
-  const fRow = document.getElementById('row-finance');
 
   D.forEach((d, i) => {
     // Energy card
@@ -637,17 +496,6 @@ function buildLifecycleRows() {
       `<div class="phase-name">${phaseNames[i]}</div>` +
       `<div class="phase-desc">${esc(d.washDesc)}</div>`;
     wRow.appendChild(wc);
-
-    // Finance card
-    const fc = document.createElement('div');
-    fc.className = 'phase-card finance';
-    fc.dataset.p = i;
-    fc.onclick = () => sel(i);
-    fc.innerHTML =
-      `<div class="phase-num">${phaseNums[i]} ·</div>` +
-      `<div class="phase-name">${phaseNames[i]}</div>` +
-      `<div class="phase-desc">${esc(d.financeDesc)}</div>`;
-    fRow.appendChild(fc);
   });
 }
 
@@ -670,7 +518,7 @@ function buildSignalCards() {
       html += `<li><span><span class="src">${esc(src.s)}</span> ${esc(src.c)}</span></li>`;
     });
 
-    // WASH items
+    // WASH items (if any)
     if (d.washSrc && d.washSrc.length) {
       html += `<li class="sec-sep">— wash —</li>`;
       d.washSrc.forEach(src => {
@@ -678,27 +526,10 @@ function buildSignalCards() {
       });
     }
 
-    // Finance items (signals only in card)
-    const finSigs = d.financeSrc.filter(x => x.type === 'signal');
-    if (finSigs.length) {
-      html += `<li class="sec-sep">— finance —</li>`;
-      finSigs.forEach(src => {
-        html += `<li><span><span class="src-fin">${esc(src.s)}</span> ${esc(src.c)}</span></li>`;
-      });
-    }
-
     html += `</ul>`;
     card.innerHTML = html;
     container.appendChild(card);
   });
-}
-
-// ── Tab switching ─────────────────────────────────────────────────────────────
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  btn.classList.add('active');
 }
 
 // ── Interaction ───────────────────────────────────────────────────────────────
@@ -720,12 +551,6 @@ function sel(i) {
   document.getElementById('dp-name').textContent = d.name;
   document.getElementById('dp-desc').textContent = d.desc;
 
-  // Reset to Energy tab
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-energy').classList.add('active');
-  document.querySelector('.tab-btn.tb-energy').classList.add('active');
-
   // Energy sources
   document.getElementById('dp-esrc').innerHTML = d.energySrc.map(x =>
     `<li><span class="s">${esc(x.s)}</span> — <span class="n">${esc(x.d)}</span></li>`
@@ -741,44 +566,10 @@ function sel(i) {
       `<li><span class="n">Sector-agnostic — no WASH-specific additions</span></li>`;
   }
 
-  // Finance tab: signals then opportunities
-  const finSigs = d.financeSrc.filter(x => x.type === 'signal');
-  const finOpps = d.financeSrc.filter(x => x.type === 'opportunity');
-  let finHtml = '';
-
-  if (finSigs.length) {
-    finHtml += `<span class="fin-sep">— signals —</span>`;
-    finHtml += `<ul class="detail-list">`;
-    finSigs.forEach(x => {
-      finHtml += `<li><span class="sf">${esc(x.s)}</span> — <span class="n">${esc(x.d)}</span></li>`;
-    });
-    finHtml += `</ul>`;
-  }
-
-  if (finOpps.length) {
-    finHtml += `<span class="fin-sep">— opportunities —</span>`;
-    finOpps.forEach(x => {
-      finHtml += `<div class="opp-card">` +
-        `<span class="opp-name">${esc(x.s)}</span>` +
-        `<span class="n">${esc(x.d)}</span><br>` +
-        `<span class="opp-field">ticket </span><span class="opp-val">${esc(x.ticket)}</span> &nbsp;` +
-        `<span class="opp-field">eligibility </span><span class="opp-val">${esc(x.eligibility)}</span><br>` +
-        `<span class="opp-field">window </span><span class="opp-val">${esc(x.window)}</span> &nbsp;` +
-        `<span class="opp-field">leadtime </span><span class="opp-val">${esc(x.leadtime)}</span>` +
-        (x.cofin && x.cofin !== 'null' ? ` &nbsp;<span class="opp-field">co-fin </span><span class="opp-val">${esc(x.cofin)}</span>` : '') +
-        `</div>`;
-    });
-  }
-
-  document.getElementById('dp-fsrc').innerHTML = finHtml;
-
-  // Intelligence notes + WASH note + Finance note
+  // Intelligence notes + WASH note
   let notesHtml = d.notes.map(x => `<li><span class="n">${esc(x.n)}</span></li>`).join('');
   if (d.washNote) {
     notesHtml += `<li><span class="sw">WASH:</span> <span class="n">${esc(d.washNote)}</span></li>`;
-  }
-  if (d.financeNote) {
-    notesHtml += `<li><span class="sf">Finance:</span> <span class="n">${esc(d.financeNote)}</span></li>`;
   }
   document.getElementById('dp-notes').innerHTML = notesHtml;
 
